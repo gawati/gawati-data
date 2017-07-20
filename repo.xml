@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Gawati Data</description>
+    <author>Ashok</author>
+    <author>Ashok</author>
+    <website/>
+    <status>alpha</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>gawati-data</target>
+    <prepare>pre-install.xql</prepare>
+    <finish/>
+    <permissions user="gawatidata" group="gawatidata" mode="rw-rw-r--"/>
+<deployed>2017-07-19T13:19:01.521+05:30</deployed></meta>
