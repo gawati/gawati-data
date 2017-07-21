@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gw="http://gawati.org/ns/1.0" 
+    xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 file:/D:/develop/github/akomantoso-lib/src/generator/v3/release/schema.xsd">
+    <act name="act">
+        <meta>
+            <identification source="#nclr">
+                <FRBRWork>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/main"/>
+                    <FRBRuri value=""/>
+                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRauthor href="#kenyaParliament"/>
+                    <FRBRcountry value="ke"/>
+                    <FRBRnumber value="CAP16"/>
+                    <FRBRprescriptive value="true"/>
+                    <FRBRauthoritative value="true"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@/main"/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@"/>
+                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRauthor href="#kenyaParliament"/>
+                    <FRBRlanguage language="eng"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@/main.xml"/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@/main.akn"/>
+                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRauthor href="#nclr"/>
+                    <FRBRformat value="embedded-pdf"/>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1989-12-15" showAs="The Advocates Act, 1989" name="Advocates Act"/>
+            <classification source="#legacy">
+                <keyword eId="ontology.dictionary.gawati.legalEducation" value="legalEducation" showAs="Legal Education" dictionary="#gawati"/>
+                <keyword eId="ontology.dictionary.gawati.precedence" value="precedence" showAs="Precedence" dictionary="#gawati"/>
+                <keyword eId="ontology.dictionary.gawati.advocates" value="advocates" showAs="Advocates" dictionary="#gawati"/>
+            </classification>
+            <lifecycle source="#all">
+                <eventRef date="1989-12-15" source="#original" type="generation"  />
+            </lifecycle>
+            <references source="#nclr">
+                <original href="/akn/ke/act/1989-12-15/CAP16/eng@/main" showAs="CAP 16"/>
+                <TLCOrganization eId="all" href="/ontology/Organization/AfricanLawLibrary" showAs="African Law Library"/>
+                <TLCOrganization eId="nclr" href="/ontology/Organization/ke/NCLR" showAs="National Council of Law Reporting, Kenya"/>
+                <TLCOrganization eId="kenyaParliament" href="/ontology/ke/Organization/ParliamentofKenya" showAs="National Assembly of Kenya"/>
+                <TLCEvent eId="dtCommence" href="ontology/Event/CommencementDate" showAs="Commencement Date"/>
+                <TLCEvent eId="dtAssent" href="ontology/Event/AssentDate" showAs="Assent Date"/>
+            </references>
+            <proprietary source="#all">
+                <gw:gawati>
+                    <gw:date refersTo="#dtAssent" date="1989-12-13" />
+                    <gw:date refersTo="#dtCommence" date="1989-12-15" />
+                </gw:gawati>
+            </proprietary>
+        </meta>
+        <body>
+            <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@/main.pdf" showAs="The Advocates Act, 1989"/>
+        </body>
+    </act>
+</akomaNtoso>   
