@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gw="http://gawati.org/ns/1.0" 
+    xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 ../schema.xsd">
+    <act name="act">
+        <meta>
+            <identification source="#nclr">
+                <FRBRWork>
+                    <FRBRthis value="/akn/mu/act/2015-12-10/2015-30/main"/>
+                    <FRBRuri value="/akn/mu/act/2015-12-10/2015-30"/>
+                    <FRBRdate date="2015-12-10" name="#workDate"/>
+                    <FRBRauthor href="#mauritiusAssembly"/>
+                    <FRBRcountry value="mu" />
+                    <FRBRnumber value="2015-30" showAs="Act No. 30 of 2015"/>
+                    <FRBRprescriptive value="true"/>
+                    <FRBRauthoritative value="true"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/mu/act/2015-12-10/2015-30/eng@/main"/>
+                    <FRBRuri value="/akn/mu/act/2015-12-10/2015-30/eng@"/>
+                    <FRBRdate date="2015-12-10" name="#workDate"/>
+                    <FRBRauthor href="#mauritiusAssembly"/>
+                    <FRBRlanguage language="eng"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/mu/act/2015-12-10/2015-30/eng@/main.xml"/>
+                    <FRBRuri value="/akn/mu/act/2015-12-10/2015-30/eng@/main.akn"/>
+                    <FRBRdate date="2015-12-10" name="#workDate"/>
+                    <FRBRauthor href="#mauritiusAssembly"/>
+                    <FRBRformat value="embedded-pdf"/>
+                </FRBRManifestation>
+            </identification>
+            <publication date="2015-12-10" showAs="The Constitution (Amendment) Act 2015" name="The Constitution (Amendment) Act 2015"/>
+            <classification source="#legacy">
+                <keyword eId="key_1" value="/ontology/dictionary/gawati/constitutionalLaw" showAs="Constitutional Law" dictionary="#gawati"/>
+                <keyword eId="key_2" value="/ontology/dictionary/gawati/constitution" showAs="Constitution" dictionary="#gawati"/>
+                <keyword eId="key_3" value="/ontology/dictionary/gawati/legislation" showAs="Legislation" dictionary="#gawati"/>
+            </classification>
+            <lifecycle source="#all">
+                <eventRef date="2015-12-10" source="#original" type="generation"  />
+            </lifecycle>
+            <references source="#parlmu">
+                <original eId="original" href="/akn/mu/act/2015-12-10/2015-30/eng@/main" showAs="The Constitution (Amendment) Act 2015"/>
+                <activeRef href="/akn/mu/act/constitution/1968-03-04/CONSTITUTION/eng@/main" showAs="The Constitution of the Republic Of Mauritius"/>
+                <TLCOrganization eId="all" href="/ontology/Organization/AfricanLawLibrary" showAs="African Law Library"/>
+                <TLCOrganization eId="parlmu" href="/ontology/Organization/mu/NationalAssembly" showAs="National Assembly, Mauritius"/>
+                <TLCEvent eId="dtCommence" href="ontology/Event/CommencementDate" showAs="Commencement Date"/>
+                <TLCEvent eId="dtAssent" href="ontology/Event/AssentDate" showAs="Assent Date"/>
+            </references>
+            <proprietary source="#all">
+                <gw:gawati>
+                    <gw:date refersTo="#dtAssent" date="2015-12-07" />
+                    <gw:date refersTo="#dtCommence" date="2015-12-10" />
+                    <gw:terms source="#gawati">
+                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/legalSystems" showAs="Legal Systems" />
+                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/sourcesOfLawPrimary" showAs="Sources of Law (Primary)" />
+                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/AmendingAct" showAs="Amending Act"/>
+                    </gw:terms>
+                </gw:gawati>
+            </proprietary>
+        </meta>
+        <body>
+            <componentRef src="/akn/mu/act/2015-12-10/2015-30/eng@/main.pdf" 
+                showAs="The Constitution (Amendment) Act 2015"/>
+        </body>
+    </act>
+</akomaNtoso>   

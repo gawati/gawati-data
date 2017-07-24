@@ -8,7 +8,7 @@
             <identification source="#nclr">
                 <FRBRWork>
                     <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/main"/>
-                    <FRBRuri value=""/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16"/>
                     <FRBRdate date="1989-12-15" name="#workDate"/>
                     <FRBRauthor href="#kenyaParliament"/>
                     <FRBRcountry value="ke"/>
