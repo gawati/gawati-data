@@ -1,9 +1,5 @@
-<?xml version='1.0'?>
-<?xml-stylesheet href="../2008/09/xsd.xsl" type="text/xsl"?>
-<xs:schema targetNamespace="http://www.w3.org/XML/1998/namespace" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-  xmlns   ="http://www.w3.org/1999/xhtml"
-  xml:lang="en">
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../2008/09/xsd.xsl" type="text/xsl"?><xs:schema xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/XML/1998/namespace" xml:lang="en">
 
  <xs:annotation>
   <xs:documentation>
@@ -30,8 +26,7 @@
       Group, specification, or document instance.
      </p>
      <p>   
-      See further below in this document for more information about <a
-      href="#usage">how to refer to this schema document from your own
+      See further below in this document for more information about <a href="#usage">how to refer to this schema document from your own
       XSD schema documents</a> and about <a href="#nsversioning">the
       namespace-versioning policy governing this schema document</a>.
      </p>
@@ -123,8 +118,7 @@
        by virtue of its definition in the XML Base specification.</p>
      
      <p>
-      See <a
-      href="http://www.w3.org/TR/xmlbase/">http://www.w3.org/TR/xmlbase/</a>
+      See <a href="http://www.w3.org/TR/xmlbase/">http://www.w3.org/TR/xmlbase/</a>
       for information about this attribute.
      </p>
     </div>
@@ -145,8 +139,7 @@
        xml:id specification.</p>
      
      <p>
-      See <a
-      href="http://www.w3.org/TR/xml-id/">http://www.w3.org/TR/xml-id/</a>
+      See <a href="http://www.w3.org/TR/xml-id/">http://www.w3.org/TR/xml-id/</a>
       for information about this attribute.
      </p>
     </div>
@@ -204,26 +197,26 @@
       the XML namespace, e.g. as follows:
      </p>
      <pre>
-          &lt;schema . . .>
+          &lt;schema . . .&gt;
            . . .
            &lt;import namespace="http://www.w3.org/XML/1998/namespace"
-                      schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+                      schemaLocation="http://www.w3.org/2001/xml.xsd"/&gt;
      </pre>
      <p>
       or
      </p>
      <pre>
            &lt;import namespace="http://www.w3.org/XML/1998/namespace"
-                      schemaLocation="http://www.w3.org/2009/01/xml.xsd"/>
+                      schemaLocation="http://www.w3.org/2009/01/xml.xsd"/&gt;
      </pre>
      <p>
       Subsequently, qualified reference to any of the attributes or the
       group defined below will have the desired effect, e.g.
      </p>
      <pre>
-          &lt;type . . .>
+          &lt;type . . .&gt;
            . . .
-           &lt;attributeGroup ref="xml:specialAttrs"/>
+           &lt;attributeGroup ref="xml:specialAttrs"/&gt;
      </pre>
      <p>
       will define a type which will schema-validate an instance element
@@ -284,4 +277,3 @@
  </xs:annotation>
 
 </xs:schema>
-

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:gw="http://gawati.org/ns/1.0" 
-    xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 ../schema.xsd">
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:gw="http://gawati.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 ../schema.xsd">
     <act name="constitution">
         <meta>
             <identification source="#nclr">
@@ -11,56 +8,56 @@
                     <FRBRuri value="/akn/mu/act/constitution/1968-03-04"/>
                     <FRBRdate date="1968-03-04" name="#workDate"/>
                     <FRBRauthor href="#mauritiusAssembly"/>
-                    <FRBRcountry value="mu" />
+                    <FRBRcountry value="mu"/>
                     <FRBRsubtype value="constitution"/>
                     <FRBRprescriptive value="true"/>
                     <FRBRauthoritative value="true"/>
                 </FRBRWork>
                 <FRBRExpression>
-                    <FRBRthis value="/akn/mu/act/constitution/1968-03-04/eng@2015-12-10/main"/>
-                    <FRBRuri value="/akn/mu/act/constitution/1968-03-04/eng@2015-12-10"/>
-                    <FRBRdate date="2015-12-10" name="#workDate"/>
+                    <FRBRthis value="/akn/mu/act/constitution/1968-03-04/eng@/main"/>
+                    <FRBRuri value="/akn/mu/act/constitution/1968-03-04/eng@"/>
+                    <FRBRdate date="1968-03-04" name="#workDate"/>
                     <FRBRauthor href="#mauritiusAssembly"/>
                     <FRBRlanguage language="eng"/>
                 </FRBRExpression>
                 <FRBRManifestation>
-                    <FRBRthis value="/akn/mu/act/constitution/1968-03-04/eng@2015-12-10/main.xml"/>
-                    <FRBRuri value="/akn/mu/act/constitution/1968-03-04/eng@2015-12-10/main.akn"/>
-                    <FRBRdate date="2015-12-10" name="#workDate"/>
+                    <FRBRthis value="/akn/mu/act/constitution/1968-03-04/eng@/main.xml"/>
+                    <FRBRuri value="/akn/mu/act/constitution/1968-03-04/eng@/main.akn"/>
+                    <FRBRdate date="1968-03-04" name="#workDate"/>
                     <FRBRauthor href="#nclr"/>
                     <FRBRformat value="embedded-pdf"/>
                 </FRBRManifestation>
             </identification>
-            <publication date="2015-12-10" showAs="The Constitution of the Republic Of Mauritius" name="Constitution"/>
+            <publication date="1968-03-04" showAs="The Constitution of the Republic Of Mauritius" name="Constitution"/>
             <classification source="#legacy">
                 <keyword eId="ontology.dictionary.gawati.constitutionalLaw" value="/ontology/dictionary/gawati/constitutionalLaw" showAs="Constitutional Law" dictionary="#gawati"/>
                 <keyword eId="ontology.dictionary.gawati.constitution" value="/ontology/dictionary/gawati/constitution" showAs="Constitution" dictionary="#gawati"/>
                 <keyword eId="ontology.dictionary.gawati.legislation" value="/ontology/dictionary/gawati/legislation" showAs="Legislation" dictionary="#gawati"/>
             </classification>
             <lifecycle source="#all">
-                <eventRef date="1968-03-04" source="#original" type="generation"  />
-                <eventRef date="2015-12-10" source="#amend_2015" type="amendment"  />
+                <eventRef date="1968-03-04" source="#original" type="generation"/>
             </lifecycle>
             <references source="#parlmu">
                 <original eId="original" href="/akn/mu/act/constitution/1968-03-04/eng@/main" showAs="The Constitution of the Republic Of Mauritius"/>
-                <passiveRef eId="amend_2015" href="/akn/mu/act/2015-12-10/2015-30/eng@/main" showAs="The Constitution (Amendment) Act 2015"/>
                 <TLCOrganization eId="all" href="/ontology/Organization/AfricanLawLibrary" showAs="African Law Library"/>
                 <TLCOrganization eId="parlmu" href="/ontology/Organization/mu/NationalAssembly" showAs="National Assembly, Mauritius"/>
                 <TLCEvent eId="dtCommence" href="ontology/Event/CommencementDate" showAs="Commencement Date"/>
             </references>
             <proprietary source="#all">
                 <gw:gawati>
-                    <gw:date refersTo="#dtCommence" date="1968-03-94" />
+                    <gw:dateTime refersTo="#dtModified" datetime="2016-07-11T00:00:00"/>
+                    <gw:dateTime refersTo="#dtUpdated" datetime="2016-08-12T00:00:00"/>
+                    <gw:date refersTo="#dtCommence" date="1968-03-94"/>
                     <gw:subjectTerms source="#imported">
-                        <gw:subjectTerm category="/ontology/Term/legal" value="/ontology/Term/legal/legalSystems" showAs="Legal Systems" />
-                        <gw:subjectTerm category="/ontology/Term/legal" value="/ontology/Term/legal/sourcesOfLawPrimary" showAs="Sources of Law (Primary)" />
-                        <gw:subjectTerm category="/ontology/Term/legal" value="/ontology/Term/legal/constitutions" showAs="Constitutions" />
+                        <gw:subjectTerm category="/ontology/Term/legal" value="/ontology/Term/legal/legalSystems" showAs="Legal Systems"/>
+                        <gw:subjectTerm category="/ontology/Term/legal" value="/ontology/Term/legal/sourcesOfLawPrimary" showAs="Sources of Law (Primary)"/>
+                        <gw:subjectTerm category="/ontology/Term/legal" value="/ontology/Term/legal/constitutions" showAs="Constitutions"/>
                     </gw:subjectTerms>
                 </gw:gawati>
             </proprietary>
         </meta>
         <body>
-            <componentRef src="/akn/mu/act/constitution/1968-03-04/eng@2015-12-10/main.pdf" showAs="The Constitution of the Republic Of Mauritius (2015)"/>
+            <componentRef src="/akn/mu/act/1968-03-04/eng@/main.pdf" showAs="The Constitution of the Republic Of Mauritius"/>
         </body>
     </act>
-</akomaNtoso>   
+</akomaNtoso>

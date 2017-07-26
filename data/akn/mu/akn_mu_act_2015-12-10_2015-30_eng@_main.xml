@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:gw="http://gawati.org/ns/1.0" 
-    xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 ../schema.xsd">
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:gw="http://gawati.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 ../schema.xsd">
     <act name="act">
         <meta>
             <identification source="#nclr">
@@ -11,7 +8,7 @@
                     <FRBRuri value="/akn/mu/act/2015-12-10/2015-30"/>
                     <FRBRdate date="2015-12-10" name="#workDate"/>
                     <FRBRauthor href="#mauritiusAssembly"/>
-                    <FRBRcountry value="mu" />
+                    <FRBRcountry value="mu"/>
                     <FRBRnumber value="2015-30" showAs="Act No. 30 of 2015"/>
                     <FRBRprescriptive value="true"/>
                     <FRBRauthoritative value="true"/>
@@ -38,7 +35,7 @@
                 <keyword eId="key_3" value="/ontology/dictionary/gawati/legislation" showAs="Legislation" dictionary="#gawati"/>
             </classification>
             <lifecycle source="#all">
-                <eventRef date="2015-12-10" source="#original" type="generation"  />
+                <eventRef date="2015-12-10" source="#original" type="generation"/>
             </lifecycle>
             <references source="#parlmu">
                 <original eId="original" href="/akn/mu/act/2015-12-10/2015-30/eng@/main" showAs="The Constitution (Amendment) Act 2015"/>
@@ -50,19 +47,20 @@
             </references>
             <proprietary source="#all">
                 <gw:gawati>
-                    <gw:date refersTo="#dtAssent" date="2015-12-07" />
-                    <gw:date refersTo="#dtCommence" date="2015-12-10" />
+                    <gw:dateTime refersTo="#dtModified" datetime="2016-11-04T00:00:00"/>
+                    <gw:dateTime refersTo="#dtUpdated" datetime="2016-11-03T00:00:00"/>
+                    <gw:date refersTo="#dtAssent" date="2015-12-07"/>
+                    <gw:date refersTo="#dtCommence" date="2015-12-10"/>
                     <gw:terms source="#gawati">
-                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/legalSystems" showAs="Legal Systems" />
-                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/sourcesOfLawPrimary" showAs="Sources of Law (Primary)" />
+                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/legalSystems" showAs="Legal Systems"/>
+                        <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/sourcesOfLawPrimary" showAs="Sources of Law (Primary)"/>
                         <gw:term category="/ontology/Term/legal" value="/ontology/Term/legal/AmendingAct" showAs="Amending Act"/>
                     </gw:terms>
                 </gw:gawati>
             </proprietary>
         </meta>
         <body>
-            <componentRef src="/akn/mu/act/2015-12-10/2015-30/eng@/main.pdf" 
-                showAs="The Constitution (Amendment) Act 2015"/>
+            <componentRef src="/akn/mu/act/2015-12-10/2015-30/eng@/main.pdf" showAs="The Constitution (Amendment) Act 2015"/>
         </body>
     </act>
-</akomaNtoso>   
+</akomaNtoso>

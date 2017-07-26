@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:gw="http://gawati.org/ns/1.0" 
-    xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 file:/D:/develop/github/akomantoso-lib/src/generator/v3/release/schema.xsd">
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:gw="http://gawati.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 ../schema.xsd">
     <act name="act">
         <meta>
             <identification source="#nclr">
@@ -17,18 +14,18 @@
                     <FRBRauthoritative value="true"/>
                 </FRBRWork>
                 <FRBRExpression>
-                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@/main"/>
-                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@"/>
-                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-23/main"/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-23"/>
+                    <FRBRdate date="2009-07-23" name="#workDate"/>
                     <FRBRauthor href="#kenyaParliament"/>
                     <FRBRlanguage language="eng"/>
                 </FRBRExpression>
                 <FRBRManifestation>
-                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@/main.xml"/>
-                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@/main.akn"/>
-                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-2/main.xml"/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-2/main.akn"/>
+                    <FRBRdate date="2009-07-23" name="#workDate"/>
                     <FRBRauthor href="#nclr"/>
-                    <FRBRformat value="embedded-pdf"/>
+                    <FRBRformat value="pdf"/>
                 </FRBRManifestation>
             </identification>
             <publication date="1989-12-15" showAs="The Advocates Act, 1989" name="Advocates Act"/>
@@ -38,10 +35,12 @@
                 <keyword eId="ontology.dictionary.gawati.advocates" value="advocates" showAs="Advocates" dictionary="#gawati"/>
             </classification>
             <lifecycle source="#all">
-                <eventRef date="1989-12-15" source="#original" type="generation"  />
+                <eventRef date="1989-12-15" source="#original" type="generation"/>
+                <eventRef date="2009-07-23" source="#amend-2009" type="amendment"/>
             </lifecycle>
             <references source="#nclr">
-                <original href="/akn/ke/act/1989-12-15/CAP16/eng@/main" showAs="CAP 16"/>
+                <original eId="original" href="/akn/ke/act/1989-12-15/CAP16/eng@/main" showAs="CAP 16"/>
+                <passiveRef eId="amend-2009" href="/akn/ke/act/2009-07-23/2009-6/eng@/main" showAs="Statute Law (Miscellaneous Amendments) Act, 2009"/>
                 <TLCOrganization eId="all" href="/ontology/Organization/AfricanLawLibrary" showAs="African Law Library"/>
                 <TLCOrganization eId="nclr" href="/ontology/Organization/ke/NCLR" showAs="National Council of Law Reporting, Kenya"/>
                 <TLCOrganization eId="kenyaParliament" href="/ontology/ke/Organization/ParliamentofKenya" showAs="National Assembly of Kenya"/>
@@ -50,13 +49,15 @@
             </references>
             <proprietary source="#all">
                 <gw:gawati>
-                    <gw:date refersTo="#dtAssent" date="1989-12-13" />
-                    <gw:date refersTo="#dtCommence" date="1989-12-15" />
+                    <gw:dateTime refersTo="#dtModified" datetime="2017-01-04T00:00:00"/>
+                    <gw:dateTime refersTo="#dtUpdated" datetime="2017-07-04T00:00:00"/>
+                    <gw:date refersTo="#dtAssent" date="1989-12-13"/>
+                    <gw:date refersTo="#dtCommence" date="1989-12-15"/>
                 </gw:gawati>
             </proprietary>
         </meta>
         <body>
-            <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@/main.pdf" showAs="The Advocates Act, 1989"/>
+            <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-2/main.pdf" showAs="The Advocates Act, 1989"/>
         </body>
     </act>
-</akomaNtoso>   
+</akomaNtoso>

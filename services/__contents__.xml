@@ -1,0 +1,6 @@
+<collection xmlns="http://exist.sourceforge.net/NS/exist" name="/db/apps/gawati-data/services" version="1" owner="gawatidata" group="gawatidata" mode="755" created="2017-07-26T12:29:55.375+05:30">
+    <acl entries="0" version="1"/>
+    <resource type="BinaryResource" name="services.xql" skip="no" owner="gawatidata" group="gawatidata" mode="645" created="2017-07-26T15:26:53.924+05:30" modified="2017-07-26T23:51:00.11+05:30" filename="services.xql" mimetype="application/xquery">
+        <acl entries="0" version="1"/>
+    </resource>
+</collection>

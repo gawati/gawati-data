@@ -1,0 +1,12 @@
+<collection xmlns="http://exist.sourceforge.net/NS/exist" name="/db/apps/gawati-data/data/akn" version="1" owner="gawatidata" group="gawatidata" mode="755" created="2017-07-24T23:43:09.192+05:30">
+    <acl entries="0" version="1"/>
+    <resource type="XMLResource" name="schema.xsd" skip="no" owner="gawatidata" group="gawatidata" mode="644" created="2017-07-24T23:43:09.978+05:30" modified="2017-07-24T23:43:09.978+05:30" filename="schema.xsd" mimetype="application/xml">
+        <acl entries="0" version="1"/>
+    </resource>
+    <resource type="XMLResource" name="xml.xsd" skip="no" owner="gawatidata" group="gawatidata" mode="644" created="2017-07-24T23:43:10.306+05:30" modified="2017-07-24T23:43:10.306+05:30" filename="xml.xsd" mimetype="application/xml">
+        <acl entries="0" version="1"/>
+    </resource>
+    <subcollection name="tg" filename="tg"/>
+    <subcollection name="mu" filename="mu"/>
+    <subcollection name="ke" filename="ke"/>
+</collection>
