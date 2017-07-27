@@ -60,7 +60,9 @@
             </proprietary>
         </meta>
         <body>
-            <componentRef src="/akn/mu/act/2015-12-10/2015-30/eng@/main.pdf" showAs="The Constitution (Amendment) Act 2015"/>
+            <book refersTo="#mainDocument">
+                <componentRef src="/akn/mu/act/2015-12-10/2015-30/eng@/main.pdf" showAs="The Constitution (Amendment) Act 2015"/>
+            </book>
         </body>
     </act>
 </akomaNtoso>

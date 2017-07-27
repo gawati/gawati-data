@@ -9,21 +9,21 @@
                     <FRBRdate date="1989-12-15" name="#workDate"/>
                     <FRBRauthor href="#kenyaParliament"/>
                     <FRBRcountry value="ke"/>
-                    <FRBRnumber value="CAP16"/>
+                    <FRBRnumber value="CAP16" showAs="CAP 16"/>
                     <FRBRprescriptive value="true"/>
                     <FRBRauthoritative value="true"/>
                 </FRBRWork>
                 <FRBRExpression>
-                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@/main"/>
-                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@"/>
-                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@2014-11-24/main"/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@2014-11-24"/>
+                    <FRBRdate date="2014-11-24" name="#exprDate"/>
                     <FRBRauthor href="#kenyaParliament"/>
                     <FRBRlanguage language="eng"/>
                 </FRBRExpression>
                 <FRBRManifestation>
-                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@/main.xml"/>
-                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@/main.akn"/>
-                    <FRBRdate date="1989-12-15" name="#workDate"/>
+                    <FRBRthis value="/akn/ke/act/1989-12-15/CAP16/eng@2014-11-24/main.xml"/>
+                    <FRBRuri value="/akn/ke/act/1989-12-15/CAP16/eng@2014-11-24/main.akn"/>
+                    <FRBRdate date="2014-11-24" name="#exprDate"/>
                     <FRBRauthor href="#nclr"/>
                     <FRBRformat value="embedded-pdf"/>
                 </FRBRManifestation>
@@ -55,7 +55,9 @@
             </proprietary>
         </meta>
         <body>
+            <book refersTo="#mainDocument">
             <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@/main.pdf" showAs="The Advocates Act, 1989"/>
+            </book>
         </body>
     </act>
 </akomaNtoso>

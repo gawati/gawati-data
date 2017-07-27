@@ -59,7 +59,9 @@
             </proprietary>
         </meta>
         <body>
+            <book refersTo="#mainDocument">
             <componentRef src="/akn/mu/act/constitution/1968-03-04/eng@2015-12-10/main.pdf" showAs="The Constitution of the Republic Of Mauritius (2015)"/>
+            </book>
         </body>
     </act>
 </akomaNtoso>

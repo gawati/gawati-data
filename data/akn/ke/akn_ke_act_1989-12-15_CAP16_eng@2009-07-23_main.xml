@@ -9,7 +9,7 @@
                     <FRBRdate date="1989-12-15" name="#workDate"/>
                     <FRBRauthor href="#kenyaParliament"/>
                     <FRBRcountry value="ke"/>
-                    <FRBRnumber value="CAP16"/>
+                    <FRBRnumber value="CAP16" showAs="CAP 16"/>
                     <FRBRprescriptive value="true"/>
                     <FRBRauthoritative value="true"/>
                 </FRBRWork>
@@ -57,7 +57,9 @@
             </proprietary>
         </meta>
         <body>
-            <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-2/main.pdf" showAs="The Advocates Act, 1989"/>
+            <book refersTo="#mainDocument">
+                <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@2009-07-2/main.pdf" showAs="The Advocates Act, 1989"/>
+            </book>
         </body>
     </act>
 </akomaNtoso>
