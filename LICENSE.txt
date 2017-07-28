@@ -1,0 +1,5 @@
+The Gawati Data server is provided under the A-GPL 3.0 license, 
+with an exception for files related to the provision of external 
+REST Services. The files related to the provision of external 
+REST Services are provided under the Apache License 2.0.
+
