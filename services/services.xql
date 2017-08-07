@@ -118,7 +118,23 @@ function services:recent-works-summary() {
     </gwd:package>
 };
 
-
+declare
+    %rest:GET
+    %rest:path("/gw/doc")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:doc-iri($iri) {
+    let $doc := data:doc($iri)
+    return
+       if (empty($doc)) then
+            <rest:response>
+                <http:response status="404">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>
+       else
+            document {$doc}
+};
 
 declare
     %rest:GET
