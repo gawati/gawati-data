@@ -16,6 +16,10 @@ import module namespace andoc="http://exist-db.org/xquery/apps/akomantoso30" at 
 
 
 
+declare function data:doc($this-iri as xs:string) {
+    let $coll := local:doc-collection()
+    return andoc:find-document($coll, $this-iri)
+};
 
 (:~
  : Returns the 'n' most recent documents in the System as per updated date
@@ -74,6 +78,35 @@ declare function data:recent-works($count as xs:integer) {
                 $work
 };
 
+declare function local:get-thumbnail-name($doc) {
+   "th_" || 
+   replace(
+    substring-before(util:document-name($doc), ".xml"),
+    "@", 
+    ""
+    ) || 
+   ".png"
+};
+
+
+declare function data:get-thumbnail($iri as xs:string) {
+    let $doc := data:doc($iri)
+    let $folder := util:collection-name($doc)
+    let $th-name := local:get-thumbnail-name($doc)
+    return
+        if (util:binary-doc-available($folder || "/" || $th-name)) then
+            util:binary-doc($folder || "/" || $th-name)
+        else
+            ()
+};
+
+
+declare function data:thumbnail-available($doc) {
+    let $folder := util:collection-name($doc)
+    let $th-name := local:get-thumbnail-name($doc)
+    return
+        util:binary-doc-available($folder || "/" || $th-name)
+};
 
 (:~
  : This function is simply a higher order function to 
@@ -87,6 +120,7 @@ declare function local:full-doc($doc) {
     $doc
 };
 
+
 (:~
  : This function is called as a higher order function 
  : from data:recent-docs(), and returns a summary of the AKN document
@@ -95,9 +129,13 @@ declare function local:full-doc($doc) {
  :)
 declare function data:summary-doc($doc) {
     let $frbrnumber := andoc:FRBRnumber($doc)
+    let $th-available := 
+        if (data:thumbnail-available($doc)) then
+            "true"
+        else
+            "false"
     return
-    <gwd:exprAbstract 
-        expr-iri="{andoc:expression-FRBRthis-value($doc)}"
+    <gwd:exprAbstract expr-iri="{andoc:expression-FRBRthis-value($doc)}"
         work-iri="{andoc:work-FRBRthis-value($doc)}" >
         <gwd:date name="work" value="{andoc:work-FRBRdate-date($doc)}" />
         <gwd:date name="expression" value="{andoc:expression-FRBRdate-date($doc)}" />
@@ -106,6 +144,7 @@ declare function data:summary-doc($doc) {
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
         <gwd:componentLink value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" />
+        <gwd:thumbnailPresent value="{$th-available}" />
      </gwd:exprAbstract>
 };
 
@@ -128,5 +167,11 @@ declare function local:recent-docs($func, $count as xs:integer) {
                 ]/@datetime 
             descending
         return $func($doc) 
+};
+
+
+declare function local:doc-collection() {
+    let $sc := config:storage-config("legaldocs")
+    return collection($sc("collection"))
 };
 

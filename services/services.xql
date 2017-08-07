@@ -1,5 +1,21 @@
 xquery version "3.1";
 
+(:
+   Copyright 2017-present African Innovation Foundation
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+:)
+
 (:~
  : This module provides Service Endpoints for the Gawati Data server.
  : The services here are exposed via the RESTXQ Implementation in eXist-db 3.x.
@@ -101,6 +117,28 @@ function services:recent-works-summary() {
         }</gwd:works>
     </gwd:package>
 };
+
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/thumbnail")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("image/png")
+    %output:method("binary")
+function services:thumbnail($iri) {
+    let $doc := data:get-thumbnail($iri) 
+    return
+    if (not(empty($doc))) then
+         $doc
+    else
+        <rest:response>
+            <http:response status="404">
+                <http:header name="Content-Type" value="application/xml"/>
+            </http:response>
+        </rest:response>
+};    
+
 
 
 (:~

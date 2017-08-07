@@ -35,6 +35,7 @@ declare variable $config:config-root := concat($config:app-root, "/_configs");
 (: Actual configuration file :)
 declare variable $config:cfg-doc := doc(concat($config:config-root, "/cfgs.xml"));
 
+
 (: Folder with XSLT scripts :)
 declare variable $config:app-xslt := $config:app-root || '/xslt';
 
