@@ -47,6 +47,7 @@
             </references>
             <proprietary source="#all">
                 <gw:gawati>
+                     <gw:embeddedContent type="pdf" state="true"/>
                     <gw:dateTime refersTo="#dtModified" datetime="2017-03-04T00:00:00"/>
                     <gw:dateTime refersTo="#dtUpdated" datetime="2017-06-04T00:00:00"/>
                     <gw:date refersTo="#dtAssent" date="1989-12-13"/>
@@ -56,7 +57,7 @@
         </meta>
         <body>
             <book refersTo="#mainDocument">
-            <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@/main.pdf" showAs="The Advocates Act, 1989"/>
+            <componentRef src="/akn/ke/act/1989-12-15/CAP16/eng@/main.pdf" alt="akn_ke_act_1989-12-15_CAP16_eng_main.pdf" showAs="The Advocates Act, 1989"/>
             </book>
         </body>
     </act>

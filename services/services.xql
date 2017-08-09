@@ -38,7 +38,7 @@ declare namespace gwd="http://gawati.org/ns/1.0/data";
 declare namespace rest="http://exquery.org/ns/restxq";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace xh="http://www.w3.org/1999/xhtml";
-
+import module namespace http="http://expath.org/ns/http-client";
 import module namespace config="http://gawati.org/xq/db/config" at "../modules/config.xqm";
 import module namespace data="http://gawati.org/xq/db/data" at "../modules/data.xql";
 
@@ -118,6 +118,13 @@ function services:recent-works-summary() {
     </gwd:package>
 };
 
+
+(:~
+ : Retrieves an AKoma Ntoso XML document based on its IRI
+ : The expression IRI from the FRBRthis element is used to retrieve the document
+ : @params $iri the expression-this iri of the document 
+ : @returns REST response with the document as text/xml
+ :)
 declare
     %rest:GET
     %rest:path("/gw/doc")
@@ -133,20 +140,43 @@ function services:doc-iri($iri) {
                 </http:response>
             </rest:response>
        else
+            (
+            <rest:response>
+                <http:response status="200">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>,
             document {$doc}
+            )
 };
 
+(:~
+ : Retrieves a thumbnail of a document as a PNG file.
+ : The expression IRI from the FRBRthis element is used to retrieve 
+ : the document's thumbnail ; which is named according to a particular o
+ : naming convention based on the IRI.
+ : @params $iri the expression-this iri of the document 
+ : @returns REST response with the document as image/png
+ :)
 declare
     %rest:GET
     %rest:path("/gw/doc/thumbnail")
     %rest:query-param("iri", "{$iri}", "")
     %rest:produces("image/png")
+    %output:media-type("image/png")
     %output:method("binary")
 function services:thumbnail($iri) {
     let $doc := data:get-thumbnail($iri) 
     return
     if (not(empty($doc))) then
-         $doc
+        ( 
+        <rest:response>
+          <http:response status="200" message="ok">
+            <http:header name="Content-Type" value="image/png"/>
+          </http:response>
+        </rest:response>,
+        $doc
+        )
     else
         <rest:response>
             <http:response status="404">
@@ -155,6 +185,40 @@ function services:thumbnail($iri) {
         </rest:response>
 };    
 
+(:~
+ : Retrieves the PDF form of a document as a pdf file.
+ : The expression IRI from the FRBRthis element is used to retrieve 
+ : the document's pdf ; which is named according to a particular o
+ : naming convention based on the IRI.
+ : @params $iri the expression-this iri of the document 
+ : @returns REST response with the document as application/pdf
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/doc/pdf")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/df")
+    %output:media-type("application/pdf")
+    %output:method("binary")
+function services:pdf($iri) {
+    let $doc := data:get-component-pdf($iri) 
+    return
+    if (not(empty($doc))) then
+        ( 
+        <rest:response>
+          <http:response status="200" message="ok">
+            <http:header name="Content-Type" value="application/pdf"/>
+          </http:response>
+        </rest:response>,
+        $doc
+        ) 
+    else
+        <rest:response>
+            <http:response status="404">
+                <http:header name="Content-Type" value="application/xml"/>
+            </http:response>
+        </rest:response>
+};    
 
 
 (:~

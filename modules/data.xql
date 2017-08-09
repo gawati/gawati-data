@@ -88,6 +88,32 @@ declare function local:get-thumbnail-name($doc) {
    ".png"
 };
 
+(:~
+ : 
+ :
+ :
+ :)
+declare 
+function data:get-component-pdf($iri as xs:string) {
+    let $doc := data:doc($iri)
+    let $folder := util:collection-name($doc)
+    let $doc-name :=  data:get-embedded-pdf-name($doc)
+    return
+        if (util:binary-doc-available($folder || "/" || $doc-name)) then
+            util:binary-doc($folder || "/" || $doc-name)
+        else
+            ()
+};
+
+declare 
+%private 
+function 
+data:get-embedded-pdf-name($doc) {
+    let $component := $doc//an:body/an:book/an:componentRef[@alt]
+    let $file := data($component/@alt)    
+    return $file
+};
+
 
 declare function data:get-thumbnail($iri as xs:string) {
     let $doc := data:doc($iri)
