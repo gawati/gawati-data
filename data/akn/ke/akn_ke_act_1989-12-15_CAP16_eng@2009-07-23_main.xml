@@ -49,6 +49,7 @@
             </references>
             <proprietary source="#all">
                 <gw:gawati>
+                    <gw:signed state="false"/>
                     <gw:embeddedContent type="pdf" state="true"/>
                     <gw:dateTime refersTo="#dtModified" datetime="2017-01-04T00:00:00"/>
                     <gw:dateTime refersTo="#dtUpdated" datetime="2017-07-04T00:00:00"/>

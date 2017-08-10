@@ -177,6 +177,14 @@ declare function andoc:document-meta($doc as document-node()){
     return $doc-type/an:meta        
 };
 
+(:             <references source="#nclr">
+                <original eId="original" href="/akn/ke/act/1989-12-15/CAP16/eng@/main" showAs="CAP 16"/>
+   :)
+   
+declare function andoc:references-original($doc as document-node()) {
+    $doc//an:references[1]/an:original[1]
+};
+
 declare function andoc:publication($doc as document-node()) {
     let $publication := andoc:document-meta($doc)/an:publication
     return $publication
@@ -235,6 +243,8 @@ declare function andoc:docType($doc as document-node(), $exp-filter as xs:string
     let $docType := andoc:root($doc)//an:docType[@eId eq $exp-filter]
     return $docType[1]
 };
+
+
 
 (:
 :  GENERIC DOCUMENT FINDER FUNCTIONS

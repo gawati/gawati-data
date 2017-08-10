@@ -66,7 +66,7 @@ declare function data:recent-works($count as xs:integer) {
             group by $work-this
             order by $works//an:FRBRWork/an:FRBRdata/@date descending
             return
-               <gwd:work iri="{$work-this}" ordered-by="dt-expr-date-desc"> {
+               <gwd:work iri="{$work-this}" ordered-by="dt-expr-date-desc" xmlns:gwd="http://gawati.org/ns/1.0/data"> {
                     for $expr in $works
                      order by $expr//an:FRBRExpression/an:FRBRdate/@date descending
                      return
@@ -77,6 +77,30 @@ declare function data:recent-works($count as xs:integer) {
             return
                 $work
 };
+
+declare
+function data:get-expression-document-chain($iri as xs:string) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll := collection($sc("collection"))
+    let $doc := data:doc($iri)
+    let $work-iri := andoc:work-FRBRthis-value($doc)
+    let $doc-chain := $coll//an:akomaNtoso[
+            ./an:*/an:meta/
+                    an:identification[
+                        an:FRBRWork/
+                            an:FRBRthis/@value eq $work-iri
+                       ]
+            ]/parent::node()
+    return
+         <gwd:work iri="{$work-iri}" ordered-by="dt-expr-date-ascending" xmlns:gwd="http://gawati.org/ns/1.0/data"> {
+                for $item in $doc-chain
+                    order by $item//an:FRBRExpression/an:FRBRdate/@date ascending
+                    return data:summary-doc($item)
+            }
+         </gwd:work>
+            
+};
+
 
 declare function local:get-thumbnail-name($doc) {
    "th_" || 
@@ -162,7 +186,7 @@ declare function data:summary-doc($doc) {
             "false"
     return
     <gwd:exprAbstract expr-iri="{andoc:expression-FRBRthis-value($doc)}"
-        work-iri="{andoc:work-FRBRthis-value($doc)}" >
+        work-iri="{andoc:work-FRBRthis-value($doc)}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:date name="work" value="{andoc:work-FRBRdate-date($doc)}" />
         <gwd:date name="expression" value="{andoc:expression-FRBRdate-date($doc)}" />
         <gwd:country value="{andoc:FRBRcountry($doc)/@value}" />

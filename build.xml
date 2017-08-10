@@ -2,10 +2,11 @@
 <project default="xar" name="gawati-data">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
+    <property name="project.spec" value="${package(spec)}" />    
     <property name="project.app" value="gawati-data"/>
     <property name="build.dir" value="build"/>
     <target name="xar">
         <mkdir dir="${build.dir}"/>
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*"/>
+        <zip basedir="." destfile="${build.dir}/${project.app}-${project.spec}.${project.version}.xar" excludes="${build.dir}/*"/>
     </target>
 </project>

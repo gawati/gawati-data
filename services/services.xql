@@ -56,7 +56,7 @@ declare
 function services:recent-expressions-full() {
     let $docs := data:recent-docs-full(10)
     return
-    <gwd:package  timestamp="{current-dateTime()}" >
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:aknDocs orderedby="dt-updated-desc"> {
            $docs
         }</gwd:aknDocs>
@@ -90,7 +90,7 @@ declare
 function services:recent-expressions-summary() {
     let $docs := data:recent-docs-summary(10)
     return
-    <gwd:package  timestamp="{current-dateTime()}" >
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc"> {
             $docs
         }</gwd:exprAbstracts>
@@ -111,7 +111,7 @@ declare
 function services:recent-works-summary() {
     let $docs := data:recent-works(10)
     return
-    <gwd:package  timestamp="{current-dateTime()}" >
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:works orderedby="dt-work-date-desc"> {
             $docs
         }</gwd:works>
@@ -148,6 +148,32 @@ function services:doc-iri($iri) {
             </rest:response>,
             document {$doc}
             )
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/expr-chain")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:doc-expression-chain($iri) {
+    let $docs := data:get-expression-document-chain($iri)
+    return
+       if (empty($docs)) then
+            <rest:response>
+                <http:response status="404">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>
+       else
+            (
+            <rest:response>
+                <http:response status="200">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>,
+            $docs
+            )    
 };
 
 (:~
