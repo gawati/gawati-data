@@ -223,7 +223,7 @@ declare
     %rest:GET
     %rest:path("/gw/doc/pdf")
     %rest:query-param("iri", "{$iri}", "")
-    %rest:produces("application/df")
+    %rest:produces("application/pdf")
     %output:media-type("application/pdf")
     %output:method("binary")
 function services:pdf($iri) {
