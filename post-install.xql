@@ -24,9 +24,12 @@ declare function local:change-password() {
 
 let $pw := local:change-password()
 
+let $login := xdb:login($target, $my-user, $pw)
+
 let $ret := 
     <users>
         <user name="{$my-user}" pw="{$pw}" />
     </users>
+    
 let $r := xdb:store($target || "/_auth", "_pw.xml", $ret) 
 return $r
