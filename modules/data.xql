@@ -161,7 +161,8 @@ declare function data:thumbnail-available($doc) {
 (:~
  : This function is simply a higher order function to 
  : return the document as is. This is in the local namespace
- : not visible to external libraries
+ : not visible to external libraries. We need this because the 
+ : because the point of use is within a higher order construct
  : @see http://exist-db.org/exist/apps/wiki/blogs/eXist/HoF
  : @param $doc AKN document
  : @returns the same input AKN document
@@ -179,6 +180,7 @@ declare function local:full-doc($doc) {
  :)
 declare function data:summary-doc($doc) {
     let $frbrnumber := andoc:FRBRnumber($doc)
+    let $frbrcountry := andoc:FRBRcountry($doc)
     let $th-available := 
         if (data:thumbnail-available($doc)) then
             "true"
@@ -189,7 +191,7 @@ declare function data:summary-doc($doc) {
         work-iri="{andoc:work-FRBRthis-value($doc)}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:date name="work" value="{andoc:work-FRBRdate-date($doc)}" />
         <gwd:date name="expression" value="{andoc:expression-FRBRdate-date($doc)}" />
-        <gwd:country value="{andoc:FRBRcountry($doc)/@value}" />
+        <gwd:country value="{andoc:FRBRcountry($doc)/@value}" >{$frbrcountry/@showAs}</gwd:country>
         <gwd:language value="{andoc:FRBRlanguage-language($doc)}" />
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>

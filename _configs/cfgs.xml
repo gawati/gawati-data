@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://gawati.org/db/config">
     <storageConfigs>
-        <storage name="legaldocs" collection="data/akn">
-            <read id="gawatidata" p="gdata"/>
-            <write id="gawatidata" p="gdata"/>
+        <storage name="legaldocs" collection="../gw-data/akn">
+            <read id="gwdata"/>
+            <write id="gwdata"/>
         </storage>
     </storageConfigs>
 </config>
