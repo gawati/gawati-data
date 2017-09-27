@@ -26,11 +26,11 @@ declare function data:doc($this-iri as xs:string) {
  : @param $count integer value indicating max number of documents to return
  : @returns gwd envelop with upto 'n' AKN documents
  :)
-declare function data:recent-docs-full($count as xs:integer) {
+declare function data:recent-docs-full($count as xs:integer, $from as xs:integer) {
     (: call the HOF :)
     let $func := local:full-doc#1
     return
-        local:recent-docs($func, $count)
+        local:recent-docs($func, $count, $from)
 };
 
 (:~
@@ -38,12 +38,31 @@ declare function data:recent-docs-full($count as xs:integer) {
  : @param $count integer value indicating max number of documents to return
  : @returns gwd envelope with upto 'n' AKN document summaries
  :)
-declare function data:recent-docs-summary($count as xs:integer) {
+declare function data:recent-docs-summary($count as xs:integer, $from as xs:integer) {
     (: call the HOF :)
     let $func := data:summary-doc#1
     return
-        local:recent-docs($func, $count)
+        local:recent-docs($func, $count, $from)
 };
+
+
+(:~
+ : Returns the summary of 'n' most recent documents in the Systme as per updated date
+ : @param $count integer value indicating max number of documents to return
+ : @returns gwd envelope with upto 'n' AKN document summaries
+ :)
+declare function data:theme-docs-summary($themes as xs:string*, $count as xs:integer, $from as xs:integer) {
+    (: call the HOF :)
+    let $func := data:summary-doc#1
+    return
+        local:theme-docs(
+            $func, 
+            $themes, 
+            $count, 
+            $from
+        )
+};
+
 
 (:~
  : Returns documents grouped by Work, returns the 10 most recent works, 
@@ -195,7 +214,7 @@ declare function data:summary-doc($doc) {
         <gwd:language value="{andoc:FRBRlanguage-language($doc)}" />
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
-        <gwd:componentLink value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" />
+        <gwd:componentLink value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
         <gwd:thumbnailPresent value="{$th-available}" />
      </gwd:exprAbstract>
 };
@@ -208,6 +227,7 @@ declare function data:summary-doc($doc) {
  : @param $count max number of documents to return
  : @returns processed output as defined by the higher order function
  :)
+ (:
 declare function local:recent-docs($func, $count as xs:integer) {
     let $sc := config:storage-config("legaldocs")
     let $coll := collection($sc("collection"))
@@ -220,6 +240,81 @@ declare function local:recent-docs($func, $count as xs:integer) {
             descending
         return $func($doc) 
 };
+:)
+(:~
+ : Private function that retrieves AKN documents. How these documents are returned
+ : is upto the higher order function passed in as parameter 1. 
+ : @param $func higher order function that accepts an AKN document as a parameter
+ : @param $count max number of documents to return
+ : @returns processed output as defined by the higher order function
+ :)
+declare function local:recent-docs($func, $count as xs:integer, $from as xs:integer) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll := collection($sc("collection"))
+    let $docs := $coll//an:akomaNtoso/parent::node()
+    let $docs-in-order := 
+        for $doc in $docs
+            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
+                @refersTo = '#dtUpdated'
+                ]/@datetime 
+            descending
+        return $doc
+    let $total-docs := count($docs-in-order)
+    return
+        if (count($docs-in-order) lt $from) then
+            (: $from is greater than the number of available docs :)
+            ()
+        else
+            map {
+            "total-pages" := ($total-docs div $count) + 1,
+            "current-page" := xs:integer($from div $count) + 1,
+            "data" :=
+                for $s-d in subsequence($docs-in-order, $from, $count)
+                    return $func($s-d)
+            }            
+
+};
+
+
+declare function local:theme-docs($func, $themes as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll := collection($sc("collection"))
+    let $themes-count := count($themes)
+    let $docs-str := 
+        "$coll//an:akomaNtoso[.//an:classification[./an:keyword[" ||           
+             string-join(
+                for $theme at $p in $themes
+                    return
+                      if ($p eq $themes-count) then
+                        "@value = '" ||  $theme  || "' " 
+                      else
+                         "@value = '" ||  $theme  || "' or " 
+             )  ||
+        "]]]/parent::node()"
+    let $docs := util:eval($docs-str)
+    let $total-docs := count($docs)
+    let $docs-in-order := 
+        for $doc in $docs
+            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
+                @refersTo = '#dtModified'
+                ]/@datetime 
+            descending
+        return $doc
+    return
+        if (count($docs-in-order) lt $from) then
+            (: $from is greater than the number of available docs :)
+            ()
+        else
+            map {
+            "records" := $total-docs,
+            "total-pages" := xs:integer($total-docs div $count) + 1,
+            "current-page" := xs:integer($from div $count) + 1,
+            "data" :=
+                for $s-d in subsequence($docs-in-order, $from, $count )
+                    return $func($s-d)
+            }    
+};
+
 
 
 declare function local:doc-collection() {

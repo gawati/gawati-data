@@ -54,7 +54,7 @@ declare
     %rest:path("/gw/recent/expressions/full")
     %rest:produces("application/xml", "text/xml")
 function services:recent-expressions-full() {
-    let $docs := data:recent-docs-full(10)
+    let $docs := data:recent-docs-full(10, 1)
     return
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:aknDocs orderedby="dt-updated-desc"> {
@@ -86,16 +86,45 @@ function services:recent-expressions-full() {
 declare
     %rest:GET
     %rest:path("/gw/recent/expressions/summary")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")    
     %rest:produces("application/xml", "text/xml")
-function services:recent-expressions-summary() {
-    let $docs := data:recent-docs-summary(10)
+function services:recent-expressions-summary($count as xs:string*, $from as xs:string*) {
+    let $map-docs := data:recent-docs-summary(xs:integer($count[1]), xs:integer($from[1]))
     return
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
-        <gwd:exprAbstracts orderedby="dt-updated-desc"> {
-            $docs
-        }</gwd:exprAbstracts>
+        <gwd:exprAbstracts orderedby="dt-updated-desc"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}">
+            {
+                $map-docs('data')
+            }
+        </gwd:exprAbstracts>
     </gwd:package>
 };
+
+declare
+    %rest:GET
+    %rest:path("/gw/themes/expressions/summary")
+     %rest:query-param("themes", "{$themes}", "unknown")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/xml", "text/xml")
+function services:themes-expressions-summary($themes as xs:string*, $count as xs:string*, $from as xs:string*) {
+    let $map-docs := data:theme-docs-summary($themes, xs:integer($count[1]), xs:integer($from[1]))
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:exprAbstracts orderedby="dt-updated-desc" 
+            records="{$map-docs('records')}"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}"> 
+            {
+            $map-docs('data')
+            }
+        </gwd:exprAbstracts>
+    </gwd:package>
+};
+
 
 (:~
  : This Service provides returns the summary of the 10 most recent Works in the system. 
