@@ -103,6 +103,76 @@ function services:recent-expressions-summary($count as xs:string*, $from as xs:s
     </gwd:package>
 };
 
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/countries/summary")
+     %rest:query-param("country", "{$country}", "ke")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/xml", "text/xml")
+function services:search-countries-summary($country as xs:string*, $count as xs:string*, $from as xs:string*) {
+    let $map-docs := data:search-country-summary($country, xs:integer($count[1]), xs:integer($from[1]))
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:exprAbstracts orderedby="dt-updated-desc" 
+            records="{$map-docs('records')}"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}"> 
+            {
+            $map-docs('data')
+            }
+        </gwd:exprAbstracts>
+    </gwd:package>
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/languages/summary")
+     %rest:query-param("doclang", "{$doclang}", "eng")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/xml", "text/xml")
+function services:search-languages-summary($doclang as xs:string*, $count as xs:string*, $from as xs:string*) {
+    let $map-docs := data:search-language-summary($doclang, xs:integer($count[1]), xs:integer($from[1]))
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:exprAbstracts orderedby="dt-updated-desc" 
+            records="{$map-docs('records')}"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}"> 
+            {
+            $map-docs('data')
+            }
+        </gwd:exprAbstracts>
+    </gwd:package>
+};
+
+(:~
+ :  This is an example service implementation, that produces JSON output instead of XML.
+ :  The JSON serializer is simply a wrapper on the XML service output
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/search/languages/summary/json")
+     %rest:query-param("doclang", "{$doclang}", "eng")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+function services:search-languages-summary-json(
+    $doclang as xs:string*, 
+    $count as xs:string*, 
+    $from as xs:string*
+    ) {
+    serialize(
+        services:search-languages-summary($doclang, $count, $from), 
+        <output:serialization-parameters>
+            <output:method>json</output:method>
+        </output:serialization-parameters>
+    )
+};
+
 declare
     %rest:GET
     %rest:path("/gw/themes/expressions/summary")

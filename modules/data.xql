@@ -45,6 +45,18 @@ declare function data:recent-docs-summary($count as xs:integer, $from as xs:inte
         local:recent-docs($func, $count, $from)
 };
 
+declare function data:search-country-summary($country as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $func := data:summary-doc#1
+    return
+        local:search-country-docs($func, $country, $count, $from)
+};
+
+declare function data:search-language-summary($doclang as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $func := data:summary-doc#1
+    return
+        local:search-language-docs($func, $doclang, $count, $from)
+};
+
 
 (:~
  : Returns the summary of 'n' most recent documents in the Systme as per updated date
@@ -273,6 +285,84 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
                     return $func($s-d)
             }            
 
+};
+
+declare function local:search-language-docs($func, $languages as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll := collection($sc("collection"))
+    let $languages-count := count($languages)
+    let $docs-str := 
+        "$coll//an:akomaNtoso[.//an:FRBRlanguage[" ||           
+             string-join(
+                for $language at $p in $languages
+                    return
+                      if ($p eq $languages-count) then
+                        "@language = '" ||  $language  || "' " 
+                      else
+                         "@language = '" ||  $language  || "' or " 
+             )  ||
+        "]]/parent::node()"
+    let $docs := util:eval($docs-str)
+    let $total-docs := count($docs)
+    let $docs-in-order := 
+        for $doc in $docs
+            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
+                @refersTo = '#dtModified'
+                ]/@datetime 
+            descending
+        return $doc
+    return
+        if (count($docs-in-order) lt $from) then
+            (: $from is greater than the number of available docs :)
+            ()
+        else
+            map {
+            "records" := $total-docs,
+            "total-pages" := xs:integer($total-docs div $count) + 1,
+            "current-page" := xs:integer($from div $count) + 1,
+            "data" :=
+                for $s-d in subsequence($docs-in-order, $from, $count )
+                    return $func($s-d)
+            }    
+};
+
+declare function local:search-country-docs($func, $countries as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll := collection($sc("collection"))
+    let $countries-count := count($countries)
+    let $docs-str := 
+        "$coll//an:akomaNtoso[.//an:FRBRcountry[" ||           
+             string-join(
+                for $country at $p in $countries
+                    return
+                      if ($p eq $countries-count) then
+                        "@value = '" ||  $country  || "' " 
+                      else
+                         "@value = '" ||  $country  || "' or " 
+             )  ||
+        "]]/parent::node()"
+    let $docs := util:eval($docs-str)
+    let $total-docs := count($docs)
+    let $docs-in-order := 
+        for $doc in $docs
+            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
+                @refersTo = '#dtModified'
+                ]/@datetime 
+            descending
+        return $doc
+    return
+        if (count($docs-in-order) lt $from) then
+            (: $from is greater than the number of available docs :)
+            ()
+        else
+            map {
+            "records" := $total-docs,
+            "total-pages" := xs:integer($total-docs div $count) + 1,
+            "current-page" := xs:integer($from div $count) + 1,
+            "data" :=
+                for $s-d in subsequence($docs-in-order, $from, $count )
+                    return $func($s-d)
+            }    
 };
 
 
