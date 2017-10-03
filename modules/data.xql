@@ -278,7 +278,8 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
             ()
         else
             map {
-            "total-pages" := ($total-docs div $count) + 1,
+            "records" := $total-docs,
+            "total-pages" := xs:integer($total-docs div $count) + 1,
             "current-page" := xs:integer($from div $count) + 1,
             "data" :=
                 for $s-d in subsequence($docs-in-order, $from, $count)

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<langs xmlns="http://gawati.org/portal/langs">
+    <lang alpha3b="aar" alpha2="aa">
+        <desc lang="eng">Afar</desc>
+    </lang>
+    <lang alpha3b="abk" alpha2="ab">
+        <desc lang="eng">Abkhazian</desc>
+    </lang>
+    <lang alpha3b="afr" alpha2="af">
+        <desc lang="eng">Afrikaans</desc>
+    </lang>
+    <lang alpha3b="aka" alpha2="ak">
+        <desc lang="eng">Akan</desc>
+    </lang>
+    <lang alpha3b="alb" alpha2="sq">
+        <desc lang="eng">Albanian</desc>
+    </lang>
+    <lang alpha3b="amh" alpha2="am">
+        <desc lang="eng">Amharic</desc>
+    </lang>
+    <lang alpha3b="ara" alpha2="ar">
+        <desc lang="eng">Arabic</desc>
+        <desc lang="ara">العربية</desc>
+    </lang>
+    <lang alpha3b="arg" alpha2="an">
+        <desc lang="eng">Aragonese</desc>
+    </lang>
+    <lang alpha3b="arm" alpha2="hy">
+        <desc lang="eng">Armenian</desc>
+    </lang>
+    <lang alpha3b="asm" alpha2="as">
+        <desc lang="eng">Assamese</desc>
+    </lang>
+    <lang alpha3b="ava" alpha2="av">
+        <desc lang="eng">Avaric</desc>
+    </lang>
+    <lang alpha3b="ave" alpha2="ae">
+        <desc lang="eng">Avestan</desc>
+    </lang>
+    <lang alpha3b="aym" alpha2="ay">
+        <desc lang="eng">Aymara</desc>
+    </lang>
+    <lang alpha3b="aze" alpha2="az">
+        <desc lang="eng">Azerbaijani</desc>
+    </lang>
+    <lang alpha3b="bak" alpha2="ba">
+        <desc lang="eng">Bashkir</desc>
+    </lang>
+    <lang alpha3b="bam" alpha2="bm">
+        <desc lang="eng">Bambara</desc>
+    </lang>
+    <lang alpha3b="baq" alpha2="eu">
+        <desc lang="eng">Basque</desc>
+    </lang>
+    <lang alpha3b="bel" alpha2="be">
+        <desc lang="eng">Belarusian</desc>
+    </lang>
+    <lang alpha3b="ben" alpha2="bn">
+        <desc lang="eng">Bengali</desc>
+    </lang>
+    <lang alpha3b="bih" alpha2="bh">
+        <desc lang="eng">Bihari languages</desc>
+    </lang>
+    <lang alpha3b="bis" alpha2="bi">
+        <desc lang="eng">Bislama</desc>
+    </lang>
+    <lang alpha3b="bos" alpha2="bs">
+        <desc lang="eng">Bosnian</desc>
+    </lang>
+    <lang alpha3b="bre" alpha2="br">
+        <desc lang="eng">Breton</desc>
+    </lang>
+    <lang alpha3b="bul" alpha2="bg">
+        <desc lang="eng">Bulgarian</desc>
+    </lang>
+    <lang alpha3b="bur" alpha2="my">
+        <desc lang="eng">Burmese</desc>
+    </lang>
+    <lang alpha3b="cat" alpha2="ca">
+        <desc lang="eng">Catalan; Valencian</desc>
+    </lang>
+    <lang alpha3b="cha" alpha2="ch">
+        <desc lang="eng">Chamorro</desc>
+    </lang>
+    <lang alpha3b="che" alpha2="ce">
+        <desc lang="eng">Chechen</desc>
+    </lang>
+    <lang alpha3b="zho" alpha2="zh">
+        <desc lang="eng">Chinese</desc>
+        <desc lang="zho">中文</desc>
+    </lang>
+    <lang alpha3b="chu" alpha2="cu">
+        <desc lang="eng">Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church
+            Slavonic</desc>
+    </lang>
+    <lang alpha3b="chv" alpha2="cv">
+        <desc lang="eng">Chuvash</desc>
+    </lang>
+    <lang alpha3b="cor" alpha2="kw">
+        <desc lang="eng">Cornish</desc>
+    </lang>
+    <lang alpha3b="cos" alpha2="co">
+        <desc lang="eng">Corsican</desc>
+    </lang>
+    <lang alpha3b="cre" alpha2="cr">
+        <desc lang="eng">Cree</desc>
+    </lang>
+    <lang alpha3b="cze" alpha2="cs">
+        <desc lang="eng">Czech</desc>
+    </lang>
+    <lang alpha3b="dan" alpha2="da">
+        <desc lang="eng">Danish</desc>
+    </lang>
+    <lang alpha3b="div" alpha2="dv">
+        <desc lang="eng">Divehi; Dhivehi; Maldivian</desc>
+    </lang>
+    <lang alpha3b="dut" alpha2="nl">
+        <desc lang="eng">Dutch; Flemish</desc>
+    </lang>
+    <lang alpha3b="dzo" alpha2="dz">
+        <desc lang="eng">Dzongkha</desc>
+    </lang>
+    <lang alpha3b="eng" alpha2="en">
+        <desc lang="eng">English</desc>
+    </lang>
+    <lang alpha3b="epo" alpha2="eo">
+        <desc lang="eng">Esperanto</desc>
+    </lang>
+    <lang alpha3b="est" alpha2="et">
+        <desc lang="eng">Estonian</desc>
+    </lang>
+    <lang alpha3b="ewe" alpha2="ee">
+        <desc lang="eng">Ewe</desc>
+    </lang>
+    <lang alpha3b="fao" alpha2="fo">
+        <desc lang="eng">Faroese</desc>
+    </lang>
+    <lang alpha3b="fij" alpha2="fj">
+        <desc lang="eng">Fijian</desc>
+    </lang>
+    <lang alpha3b="fin" alpha2="fi">
+        <desc lang="eng">Finnish</desc>
+    </lang>
+    <lang alpha3b="fra" alpha2="fr">
+        <desc lang="eng">French</desc>
+        <desc lang="fra">Français</desc>
+    </lang>
+    <lang alpha3b="fry" alpha2="fy">
+        <desc lang="eng">Western Frisian</desc>
+    </lang>
+    <lang alpha3b="ful" alpha2="ff">
+        <desc lang="eng">Fulah</desc>
+    </lang>
+    <lang alpha3b="geo" alpha2="ka">
+        <desc lang="eng">Georgian</desc>
+    </lang>
+    <lang alpha3b="ger" alpha2="de">
+        <desc lang="eng">German</desc>
+    </lang>
+    <lang alpha3b="gla" alpha2="gd">
+        <desc lang="eng">Gaelic; Scottish Gaelic</desc>
+    </lang>
+    <lang alpha3b="gle" alpha2="ga">
+        <desc lang="eng">Irish</desc>
+    </lang>
+    <lang alpha3b="glg" alpha2="gl">
+        <desc lang="eng">Galician</desc>
+    </lang>
+    <lang alpha3b="glv" alpha2="gv">
+        <desc lang="eng">Manx</desc>
+    </lang>
+    <lang alpha3b="gre" alpha2="el">
+        <desc lang="eng">Greek, Modern (1453-)</desc>
+    </lang>
+    <lang alpha3b="grn" alpha2="gn">
+        <desc lang="eng">Guarani</desc>
+    </lang>
+    <lang alpha3b="guj" alpha2="gu">
+        <desc lang="eng">Gujarati</desc>
+    </lang>
+    <lang alpha3b="hat" alpha2="ht">
+        <desc lang="eng">Haitian; Haitian Creole</desc>
+    </lang>
+    <lang alpha3b="hau" alpha2="ha">
+        <desc lang="eng">Hausa</desc>
+    </lang>
+    <lang alpha3b="heb" alpha2="he">
+        <desc lang="eng">Hebrew</desc>
+    </lang>
+    <lang alpha3b="her" alpha2="hz">
+        <desc lang="eng">Herero</desc>
+    </lang>
+    <lang alpha3b="hin" alpha2="hi">
+        <desc lang="eng">Hindi</desc>
+    </lang>
+    <lang alpha3b="hmo" alpha2="ho">
+        <desc lang="eng">Hiri Motu</desc>
+    </lang>
+    <lang alpha3b="hrv" alpha2="hr">
+        <desc lang="eng">Croatian</desc>
+    </lang>
+    <lang alpha3b="hun" alpha2="hu">
+        <desc lang="eng">Hungarian</desc>
+    </lang>
+    <lang alpha3b="ibo" alpha2="ig">
+        <desc lang="eng">Igbo</desc>
+    </lang>
+    <lang alpha3b="ice" alpha2="is">
+        <desc lang="eng">Icelandic</desc>
+    </lang>
+    <lang alpha3b="ido" alpha2="io">
+        <desc lang="eng">Ido</desc>
+    </lang>
+    <lang alpha3b="iii" alpha2="ii">
+        <desc lang="eng">Sichuan Yi; Nuosu</desc>
+    </lang>
+    <lang alpha3b="iku" alpha2="iu">
+        <desc lang="eng">Inuktitut</desc>
+    </lang>
+    <lang alpha3b="ile" alpha2="ie">
+        <desc lang="eng">Interlingue; Occidental</desc>
+    </lang>
+    <lang alpha3b="ina" alpha2="ia">
+        <desc lang="eng">Interlingua (International Auxiliary Language Association)</desc>
+    </lang>
+    <lang alpha3b="ind" alpha2="id">
+        <desc lang="eng">Indonesian</desc>
+    </lang>
+    <lang alpha3b="ipk" alpha2="ik">
+        <desc lang="eng">Inupiaq</desc>
+    </lang>
+    <lang alpha3b="ita" alpha2="it">
+        <desc lang="eng">Italian</desc>
+    </lang>
+    <lang alpha3b="jav" alpha2="jv">
+        <desc lang="eng">Javanese</desc>
+    </lang>
+    <lang alpha3b="jpn" alpha2="ja">
+        <desc lang="eng">Japanese</desc>
+    </lang>
+    <lang alpha3b="kal" alpha2="kl">
+        <desc lang="eng">Kalaallisut; Greenlandic</desc>
+    </lang>
+    <lang alpha3b="kan" alpha2="kn">
+        <desc lang="eng">Kannada</desc>
+    </lang>
+    <lang alpha3b="kas" alpha2="ks">
+        <desc lang="eng">Kashmiri</desc>
+    </lang>
+    <lang alpha3b="kau" alpha2="kr">
+        <desc lang="eng">Kanuri</desc>
+    </lang>
+    <lang alpha3b="kaz" alpha2="kk">
+        <desc lang="eng">Kazakh</desc>
+    </lang>
+    <lang alpha3b="khm" alpha2="km">
+        <desc lang="eng">Central Khmer</desc>
+    </lang>
+    <lang alpha3b="kik" alpha2="ki">
+        <desc lang="eng">Kikuyu; Gikuyu</desc>
+    </lang>
+    <lang alpha3b="kin" alpha2="rw">
+        <desc lang="eng">Kinyarwanda</desc>
+    </lang>
+    <lang alpha3b="kir" alpha2="ky">
+        <desc lang="eng">Kirghiz; Kyrgyz</desc>
+    </lang>
+    <lang alpha3b="kom" alpha2="kv">
+        <desc lang="eng">Komi</desc>
+    </lang>
+    <lang alpha3b="kon" alpha2="kg">
+        <desc lang="eng">Kongo</desc>
+    </lang>
+    <lang alpha3b="kor" alpha2="ko">
+        <desc lang="eng">Korean</desc>
+    </lang>
+    <lang alpha3b="kua" alpha2="kj">
+        <desc lang="eng">Kuanyama; Kwanyama</desc>
+    </lang>
+    <lang alpha3b="kur" alpha2="ku">
+        <desc lang="eng">Kurdish</desc>
+    </lang>
+    <lang alpha3b="lao" alpha2="lo">
+        <desc lang="eng">Lao</desc>
+    </lang>
+    <lang alpha3b="lat" alpha2="la">
+        <desc lang="eng">Latin</desc>
+    </lang>
+    <lang alpha3b="lav" alpha2="lv">
+        <desc lang="eng">Latvian</desc>
+    </lang>
+    <lang alpha3b="lim" alpha2="li">
+        <desc lang="eng">Limburgan; Limburger; Limburgish</desc>
+    </lang>
+    <lang alpha3b="lin" alpha2="ln">
+        <desc lang="eng">Lingala</desc>
+    </lang>
+    <lang alpha3b="lit" alpha2="lt">
+        <desc lang="eng">Lithuanian</desc>
+    </lang>
+    <lang alpha3b="ltz" alpha2="lb">
+        <desc lang="eng">Luxembourgish; Letzeburgesch</desc>
+    </lang>
+    <lang alpha3b="lub" alpha2="lu">
+        <desc lang="eng">Luba-Katanga</desc>
+    </lang>
+    <lang alpha3b="lug" alpha2="lg">
+        <desc lang="eng">Ganda</desc>
+    </lang>
+    <lang alpha3b="mac" alpha2="mk">
+        <desc lang="eng">Macedonian</desc>
+    </lang>
+    <lang alpha3b="mah" alpha2="mh">
+        <desc lang="eng">Marshallese</desc>
+    </lang>
+    <lang alpha3b="mal" alpha2="ml">
+        <desc lang="eng">Malayalam</desc>
+    </lang>
+    <lang alpha3b="mao" alpha2="mi">
+        <desc lang="eng">Maori</desc>
+    </lang>
+    <lang alpha3b="mar" alpha2="mr">
+        <desc lang="eng">Marathi</desc>
+    </lang>
+    <lang alpha3b="may" alpha2="ms">
+        <desc lang="eng">Malay</desc>
+    </lang>
+    <lang alpha3b="mlg" alpha2="mg">
+        <desc lang="eng">Malagasy</desc>
+    </lang>
+    <lang alpha3b="mlt" alpha2="mt">
+        <desc lang="eng">Maltese</desc>
+    </lang>
+    <lang alpha3b="mon" alpha2="mn">
+        <desc lang="eng">Mongolian</desc>
+    </lang>
+    <lang alpha3b="nau" alpha2="na">
+        <desc lang="eng">Nauru</desc>
+    </lang>
+    <lang alpha3b="nav" alpha2="nv">
+        <desc lang="eng">Navajo; Navaho</desc>
+    </lang>
+    <lang alpha3b="nbl" alpha2="nr">
+        <desc lang="eng">Ndebele, South; South Ndebele</desc>
+    </lang>
+    <lang alpha3b="nde" alpha2="nd">
+        <desc lang="eng">Ndebele, North; North Ndebele</desc>
+    </lang>
+    <lang alpha3b="ndo" alpha2="ng">
+        <desc lang="eng">Ndonga</desc>
+    </lang>
+    <lang alpha3b="nep" alpha2="ne">
+        <desc lang="eng">Nepali</desc>
+    </lang>
+    <lang alpha3b="nno" alpha2="nn">
+        <desc lang="eng">Norwegian Nynorsk; Nynorsk, Norwegian</desc>
+    </lang>
+    <lang alpha3b="nob" alpha2="nb">
+        <desc lang="eng">Bokmål, Norwegian; Norwegian Bokmål</desc>
+    </lang>
+    <lang alpha3b="nor" alpha2="no">
+        <desc lang="eng">Norwegian</desc>
+    </lang>
+    <lang alpha3b="nya" alpha2="ny">
+        <desc lang="eng">Chichewa; Chewa; Nyanja</desc>
+    </lang>
+    <lang alpha3b="oci" alpha2="oc">
+        <desc lang="eng">Occitan (post 1500); Provençal</desc>
+    </lang>
+    <lang alpha3b="oji" alpha2="oj">
+        <desc lang="eng">Ojibwa</desc>
+    </lang>
+    <lang alpha3b="ori" alpha2="or">
+        <desc lang="eng">Oriya</desc>
+    </lang>
+    <lang alpha3b="orm" alpha2="om">
+        <desc lang="eng">Oromo</desc>
+    </lang>
+    <lang alpha3b="oss" alpha2="os">
+        <desc lang="eng">Ossetian; Ossetic</desc>
+    </lang>
+    <lang alpha3b="pan" alpha2="pa">
+        <desc lang="eng">Panjabi; Punjabi</desc>
+    </lang>
+    <lang alpha3b="per" alpha2="fa">
+        <desc lang="eng">Persian</desc>
+    </lang>
+    <lang alpha3b="pli" alpha2="pi">
+        <desc lang="eng">Pali</desc>
+    </lang>
+    <lang alpha3b="pol" alpha2="pl">
+        <desc lang="eng">Polish</desc>
+    </lang>
+    <lang alpha3b="por" alpha2="pt">
+        <desc lang="eng">Portuguese</desc>
+    </lang>
+    <lang alpha3b="pus" alpha2="ps">
+        <desc lang="eng">Pushto; Pashto</desc>
+    </lang>
+    <lang alpha3b="que" alpha2="qu">
+        <desc lang="eng">Quechua</desc>
+    </lang>
+    <lang alpha3b="roh" alpha2="rm">
+        <desc lang="eng">Romansh</desc>
+    </lang>
+    <lang alpha3b="rum" alpha2="ro">
+        <desc lang="eng">Romanian; Moldavian; Moldovan</desc>
+    </lang>
+    <lang alpha3b="run" alpha2="rn">
+        <desc lang="eng">Rundi</desc>
+    </lang>
+    <lang alpha3b="rus" alpha2="ru">
+        <desc lang="eng">Russian</desc>
+        <desc lang="rus">Русский</desc>
+    </lang>
+    <lang alpha3b="sag" alpha2="sg">
+        <desc lang="eng">Sango</desc>
+    </lang>
+    <lang alpha3b="san" alpha2="sa">
+        <desc lang="eng">Sanskrit</desc>
+    </lang>
+    <lang alpha3b="sin" alpha2="si">
+        <desc lang="eng">Sinhala; Sinhalese</desc>
+    </lang>
+    <lang alpha3b="slo" alpha2="sk">
+        <desc lang="eng">Slovak</desc>
+    </lang>
+    <lang alpha3b="slv" alpha2="sl">
+        <desc lang="eng">Slovenian</desc>
+    </lang>
+    <lang alpha3b="sme" alpha2="se">
+        <desc lang="eng">Northern Sami</desc>
+    </lang>
+    <lang alpha3b="smo" alpha2="sm">
+        <desc lang="eng">Samoan</desc>
+    </lang>
+    <lang alpha3b="sna" alpha2="sn">
+        <desc lang="eng">Shona</desc>
+    </lang>
+    <lang alpha3b="snd" alpha2="sd">
+        <desc lang="eng">Sindhi</desc>
+    </lang>
+    <lang alpha3b="som" alpha2="so">
+        <desc lang="eng">Somali</desc>
+    </lang>
+    <lang alpha3b="sot" alpha2="st">
+        <desc lang="eng">Sotho, Southern</desc>
+    </lang>
+    <lang alpha3b="spa" alpha2="es">
+        <desc lang="eng">Spanish</desc>
+        <desc lang="spa">Español</desc>
+    </lang>
+    <lang alpha3b="srd" alpha2="sc">
+        <desc lang="eng">Sardinian</desc>
+    </lang>
+    <lang alpha3b="srp" alpha2="sr">
+        <desc lang="eng">Serbian</desc>
+    </lang>
+    <lang alpha3b="ssw" alpha2="ss">
+        <desc lang="eng">Swati</desc>
+    </lang>
+    <lang alpha3b="sun" alpha2="su">
+        <desc lang="eng">Sundanese</desc>
+    </lang>
+    <lang alpha3b="swa" alpha2="sw">
+        <desc lang="eng">Swahili</desc>
+    </lang>
+    <lang alpha3b="swe" alpha2="sv">
+        <desc lang="eng">Swedish</desc>
+    </lang>
+    <lang alpha3b="tah" alpha2="ty">
+        <desc lang="eng">Tahitian</desc>
+    </lang>
+    <lang alpha3b="tam" alpha2="ta">
+        <desc lang="eng">Tamil</desc>
+    </lang>
+    <lang alpha3b="tat" alpha2="tt">
+        <desc lang="eng">Tatar</desc>
+    </lang>
+    <lang alpha3b="tel" alpha2="te">
+        <desc lang="eng">Telugu</desc>
+    </lang>
+    <lang alpha3b="tgk" alpha2="tg">
+        <desc lang="eng">Tajik</desc>
+    </lang>
+    <lang alpha3b="tgl" alpha2="tl">
+        <desc lang="eng">Tagalog</desc>
+    </lang>
+    <lang alpha3b="tha" alpha2="th">
+        <desc lang="eng">Thai</desc>
+    </lang>
+    <lang alpha3b="tib" alpha2="bo">
+        <desc lang="eng">Tibetan</desc>
+    </lang>
+    <lang alpha3b="tir" alpha2="ti">
+        <desc lang="eng">Tigrinya</desc>
+    </lang>
+    <lang alpha3b="ton" alpha2="to">
+        <desc lang="eng">Tonga (Tonga Islands)</desc>
+    </lang>
+    <lang alpha3b="tsn" alpha2="tn">
+        <desc lang="eng">Tswana</desc>
+    </lang>
+    <lang alpha3b="tso" alpha2="ts">
+        <desc lang="eng">Tsonga</desc>
+    </lang>
+    <lang alpha3b="tuk" alpha2="tk">
+        <desc lang="eng">Turkmen</desc>
+    </lang>
+    <lang alpha3b="tur" alpha2="tr">
+        <desc lang="eng">Turkish</desc>
+    </lang>
+    <lang alpha3b="twi" alpha2="tw">
+        <desc lang="eng">Twi</desc>
+    </lang>
+    <lang alpha3b="uig" alpha2="ug">
+        <desc lang="eng">Uighur; Uyghur</desc>
+    </lang>
+    <lang alpha3b="ukr" alpha2="uk">
+        <desc lang="eng">Ukrainian</desc>
+    </lang>
+    <lang alpha3b="urd" alpha2="ur">
+        <desc lang="eng">Urdu</desc>
+    </lang>
+    <lang alpha3b="uzb" alpha2="uz">
+        <desc lang="eng">Uzbek</desc>
+    </lang>
+    <lang alpha3b="ven" alpha2="ve">
+        <desc lang="eng">Venda</desc>
+    </lang>
+    <lang alpha3b="vie" alpha2="vi">
+        <desc lang="eng">Vietnamese</desc>
+    </lang>
+    <lang alpha3b="vol" alpha2="vo">
+        <desc lang="eng">Volapük</desc>
+    </lang>
+    <lang alpha3b="wel" alpha2="cy">
+        <desc lang="eng">Welsh</desc>
+    </lang>
+    <lang alpha3b="wln" alpha2="wa">
+        <desc lang="eng">Walloon</desc>
+    </lang>
+    <lang alpha3b="wol" alpha2="wo">
+        <desc lang="eng">Wolof</desc>
+    </lang>
+    <lang alpha3b="xho" alpha2="xh">
+        <desc lang="eng">Xhosa</desc>
+    </lang>
+    <lang alpha3b="yid" alpha2="yi">
+        <desc lang="eng">Yiddish</desc>
+    </lang>
+    <lang alpha3b="yor" alpha2="yo">
+        <desc lang="eng">Yoruba</desc>
+    </lang>
+    <lang alpha3b="zha" alpha2="za">
+        <desc lang="eng">Zhuang; Chuang</desc>
+    </lang>
+    <lang alpha3b="zul" alpha2="zu">
+        <desc lang="eng">Zulu</desc>
+    </lang>
+</langs>

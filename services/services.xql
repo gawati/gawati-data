@@ -41,7 +41,7 @@ declare namespace xh="http://www.w3.org/1999/xhtml";
 import module namespace http="http://expath.org/ns/http-client";
 import module namespace config="http://gawati.org/xq/db/config" at "../modules/config.xqm";
 import module namespace data="http://gawati.org/xq/db/data" at "../modules/data.xql";
-
+import module namespace caching="http://gawati.org/xq/db/caching" at "../modules/caching.xql";
 (:~
  : This Service provides returns the 10 most recent documents in the system. 
  : Recency is established based on Updated date (which is different from Modified date). 
@@ -94,6 +94,7 @@ function services:recent-expressions-summary($count as xs:string*, $from as xs:s
     return
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc"
+            records="{$map-docs('records')}"
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}">
             {
@@ -272,6 +273,30 @@ function services:doc-expression-chain($iri) {
                 </http:response>
             </rest:response>,
             $docs
+            )    
+};
+
+declare
+    %rest:GET
+    %rest:path("/gw/filter-cache")
+    %rest:produces("application/xml", "text/xml")
+function services:filter-cache() {
+    let $doc := caching:filter-cache()
+    return
+       if (empty($doc)) then
+            <rest:response>
+                <http:response status="404">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>
+       else
+            (
+            <rest:response>
+                <http:response status="200">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>,
+            $doc
             )    
 };
 
