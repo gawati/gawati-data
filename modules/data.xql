@@ -226,7 +226,7 @@ declare function data:summary-doc($doc) {
         <gwd:language value="{andoc:FRBRlanguage-language($doc)}" />
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
-        <gwd:componentLink value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
+        <gwd:componentLink src="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
         <gwd:thumbnailPresent value="{$th-available}" />
      </gwd:exprAbstract>
 };

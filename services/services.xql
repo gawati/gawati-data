@@ -150,29 +150,7 @@ function services:search-languages-summary($doclang as xs:string*, $count as xs:
     </gwd:package>
 };
 
-(:~
- :  This is an example service implementation, that produces JSON output instead of XML.
- :  The JSON serializer is simply a wrapper on the XML service output
- :)
-declare
-    %rest:GET
-    %rest:path("/gw/search/languages/summary/json")
-     %rest:query-param("doclang", "{$doclang}", "eng")
-     %rest:query-param("count", "{$count}", "10")
-     %rest:query-param("from", "{$from}", "1")
-    %rest:produces("application/json")
-function services:search-languages-summary-json(
-    $doclang as xs:string*, 
-    $count as xs:string*, 
-    $from as xs:string*
-    ) {
-    serialize(
-        services:search-languages-summary($doclang, $count, $from), 
-        <output:serialization-parameters>
-            <output:method>json</output:method>
-        </output:serialization-parameters>
-    )
-};
+
 
 declare
     %rest:GET
