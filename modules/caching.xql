@@ -24,7 +24,7 @@ declare function local:doc-collection() {
 declare function caching:filter-cache() {
     let $docs := local:doc-collection()//an:akomaNtoso
     return
-        <filters>
+        <filters timestamp="{string(current-dateTime())}">
             <filter name="countries" label="Countries"> {
               
             for $doc in $docs

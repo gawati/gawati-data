@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <langs xmlns="http://gawati.org/portal/langs">
+    <lang alpha3b="mul" alpha2="mu">
+        <desc lang="eng">Multilingual</desc>
+    </lang>     
     <lang alpha3b="aar" alpha2="aa">
         <desc lang="eng">Afar</desc>
     </lang>
