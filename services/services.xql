@@ -151,6 +151,55 @@ function services:search-languages-summary($doclang as xs:string*, $count as xs:
 };
 
 
+declare
+    %rest:GET
+    %rest:path("/gw/search/keywords/summary")
+     %rest:query-param("kw", "{$kw}", "Legislation")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/xml", "text/xml")
+function services:search-keywords-summary($kw as xs:string*, $count as xs:string*, $from as xs:string*) {
+    let $map-docs := data:search-keywords-summary(
+            $kw, 
+            xs:integer($count[1]), 
+            xs:integer($from[1])
+        )
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:exprAbstracts orderedby="dt-updated-desc" 
+            records="{$map-docs('records')}"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}"> 
+            {
+            $map-docs('data')
+            }
+        </gwd:exprAbstracts>
+    </gwd:package>
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/years/summary")
+     %rest:query-param("year", "{$year}", "eng")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/xml", "text/xml")
+function services:search-years-summary($year as xs:string*, $count as xs:string*, $from as xs:string*) {
+    let $map-docs := data:search-years-summary($year, xs:integer($count[1]), xs:integer($from[1]))
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:exprAbstracts orderedby="dt-updated-desc" 
+            records="{$map-docs('records')}"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}"> 
+            {
+            $map-docs('data')
+            }
+        </gwd:exprAbstracts>
+    </gwd:package>
+};
+
 
 declare
     %rest:GET

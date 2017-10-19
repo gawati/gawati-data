@@ -13,11 +13,11 @@ declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
 
 import module namespace config="http://gawati.org/xq/db/config" at "config.xqm";
 import module namespace andoc="http://exist-db.org/xquery/apps/akomantoso30" at "akomantoso.xql";
-
+import module namespace common="http://gawati.org/xq/db/common" at "common.xql";
 
 
 declare function data:doc($this-iri as xs:string) {
-    let $coll := local:doc-collection()
+    let $coll := common:doc-collection()
     return andoc:find-document($coll, $this-iri)
 };
 
@@ -55,6 +55,18 @@ declare function data:search-language-summary($doclang as xs:string*, $count as 
     let $func := data:summary-doc#1
     return
         local:search-language-docs($func, $doclang, $count, $from)
+};
+
+declare function data:search-years-summary($year as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $func := data:summary-doc#1
+    return
+        local:search-year-docs($func, $year, $count, $from)
+};
+
+declare function data:search-keywords-summary($kw as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $func := data:summary-doc#1
+    return
+        local:search-keyword-docs($func, $kw, $count, $from)
 };
 
 
@@ -288,12 +300,50 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
 
 };
 
+
+declare function local:process-search($func as function(item()) as item()*,  $coll-context, $from as xs:integer, $count as xs:integer, $docs-str as xs:string) {
+    let $docs := util:eval($docs-str)
+    let $total-docs := count($docs)
+    return
+        if ($total-docs gt 0) then
+           let $docs-in-order := 
+                for $doc in $docs
+                    order by $doc//an:proprietary/gw:gawati/gw:dateTime[
+                            @refersTo = '#dtModified'
+                        ]/@datetime 
+                    descending
+                return $doc
+            return
+                map {
+                    "records" := $total-docs,
+                    "total-pages" := xs:integer($total-docs div $count) + 1,
+                    "current-page" := xs:integer($from div $count) + 1,
+                    "data" :=
+                        for $s-d in subsequence($docs-in-order, $from, $count )
+                            return $func($s-d)
+                }    
+        else
+            (: $from is greater than the number of available docs :)
+            map {
+                "records" := 0,
+                "total-page" := 0,
+                "current-page" := 0,
+                "data" := 
+                    <gwd:empty>
+                        <gwd:message lang="eng">
+                        No documents dound
+                        </gwd:message>
+                    </gwd:empty>
+            
+            }
+};
+
 declare function local:search-language-docs($func, $languages as xs:string*, $count as xs:integer, $from as xs:integer) {
     let $sc := config:storage-config("legaldocs")
-    let $coll := collection($sc("collection"))
+    let $coll-context := collection($sc("collection"))
     let $languages-count := count($languages)
     let $docs-str := 
-        "$coll//an:akomaNtoso[.//an:FRBRlanguage[" ||           
+        "$coll-context//an:akomaNtoso[.//an:FRBRlanguage[" ||           
              string-join(
                 for $language at $p in $languages
                     return
@@ -303,36 +353,21 @@ declare function local:search-language-docs($func, $languages as xs:string*, $co
                          "@language = '" ||  $language  || "' or " 
              )  ||
         "]]/parent::node()"
-    let $docs := util:eval($docs-str)
-    let $total-docs := count($docs)
-    let $docs-in-order := 
-        for $doc in $docs
-            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
-                @refersTo = '#dtModified'
-                ]/@datetime 
-            descending
-        return $doc
-    return
-        if (count($docs-in-order) lt $from) then
-            (: $from is greater than the number of available docs :)
-            ()
-        else
-            map {
-            "records" := $total-docs,
-            "total-pages" := xs:integer($total-docs div $count) + 1,
-            "current-page" := xs:integer($from div $count) + 1,
-            "data" :=
-                for $s-d in subsequence($docs-in-order, $from, $count )
-                    return $func($s-d)
-            }    
+    return local:process-search(
+        $func, 
+        $coll-context,
+        $from, 
+        $count, 
+        $docs-str
+        )
 };
 
 declare function local:search-country-docs($func, $countries as xs:string*, $count as xs:integer, $from as xs:integer) {
     let $sc := config:storage-config("legaldocs")
-    let $coll := collection($sc("collection"))
+    let $coll-context := collection($sc("collection"))
     let $countries-count := count($countries)
     let $docs-str := 
-        "$coll//an:akomaNtoso[.//an:FRBRcountry[" ||           
+        "$coll-context//an:akomaNtoso[.//an:FRBRcountry[" ||           
              string-join(
                 for $country at $p in $countries
                     return
@@ -342,37 +377,71 @@ declare function local:search-country-docs($func, $countries as xs:string*, $cou
                          "@value = '" ||  $country  || "' or " 
              )  ||
         "]]/parent::node()"
-    let $docs := util:eval($docs-str)
-    let $total-docs := count($docs)
-    let $docs-in-order := 
-        for $doc in $docs
-            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
-                @refersTo = '#dtModified'
-                ]/@datetime 
-            descending
-        return $doc
+
     return
-        if (count($docs-in-order) lt $from) then
-            (: $from is greater than the number of available docs :)
-            ()
-        else
-            map {
-            "records" := $total-docs,
-            "total-pages" := xs:integer($total-docs div $count) + 1,
-            "current-page" := xs:integer($from div $count) + 1,
-            "data" :=
-                for $s-d in subsequence($docs-in-order, $from, $count )
-                    return $func($s-d)
-            }    
+        local:process-search(
+            $func, 
+            $coll-context, 
+            $from, 
+            $count, 
+            $docs-str
+        )
+            
 };
 
 
+declare function local:search-keyword-docs($func, $kws as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll-context := collection($sc("collection"))
+    let $kws-count := count($kws)
+    let $docs-str := 
+        "$coll-context//an:akomaNtoso[./an:*/an:meta/an:classification/an:keyword[" ||          
+             string-join(
+                for $kw at $p in $kws
+                    return
+                      if ($p eq $kws-count) then
+                        "@value = '" || $kw  || "'"   
+                      else
+                        "@value = '" ||  $kw || "' or " 
+             )  ||
+        "]]/parent::node()"
+
+     return
+        local:process-search(
+            $func, 
+            $coll-context,
+            $from, 
+            $count, 
+            $docs-str
+        )
+};
+
+
+declare function local:search-year-docs($func, $years as xs:string*, $count as xs:integer, $from as xs:integer) {
+    let $sc := config:storage-config("legaldocs")
+    let $coll-context := collection($sc("collection"))
+    let $years-count := count($years)
+    let $docs-str := 
+        "$coll-context//an:akomaNtoso[./an:*/an:meta/an:identification/an:FRBRExpression/an:FRBRdate/@date[" ||           
+             string-join(
+                for $year at $p in $years
+                    return
+                      if ($p eq $years-count) then
+                        "year-from-date(.) = " ||  $year   
+                      else
+                         "year-from-date(.) = " ||  $year || " or " 
+             )  ||
+        "]]/parent::node()"
+    return
+        local:process-search($func, $coll-context, $from, $count, $docs-str)    
+};
+
 declare function local:theme-docs($func, $themes as xs:string*, $count as xs:integer, $from as xs:integer) {
     let $sc := config:storage-config("legaldocs")
-    let $coll := collection($sc("collection"))
+    let $coll-context := collection($sc("collection"))
     let $themes-count := count($themes)
     let $docs-str := 
-        "$coll//an:akomaNtoso[.//an:classification[./an:keyword[" ||           
+        "$coll-context//an:akomaNtoso[.//an:classification[./an:keyword[" ||           
              string-join(
                 for $theme at $p in $themes
                     return
@@ -382,34 +451,16 @@ declare function local:theme-docs($func, $themes as xs:string*, $count as xs:int
                          "@value = '" ||  $theme  || "' or " 
              )  ||
         "]]]/parent::node()"
-    let $docs := util:eval($docs-str)
-    let $total-docs := count($docs)
-    let $docs-in-order := 
-        for $doc in $docs
-            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
-                @refersTo = '#dtModified'
-                ]/@datetime 
-            descending
-        return $doc
     return
-        if (count($docs-in-order) lt $from) then
-            (: $from is greater than the number of available docs :)
-            ()
-        else
-            map {
-            "records" := $total-docs,
-            "total-pages" := xs:integer($total-docs div $count) + 1,
-            "current-page" := xs:integer($from div $count) + 1,
-            "data" :=
-                for $s-d in subsequence($docs-in-order, $from, $count )
-                    return $func($s-d)
-            }    
+        local:process-search(
+            $func, 
+            $coll-context, 
+            $from, 
+            $count, 
+            $docs-str
+        )    
 };
 
 
 
-declare function local:doc-collection() {
-    let $sc := config:storage-config("legaldocs")
-    return collection($sc("collection"))
-};
 
