@@ -224,11 +224,13 @@ declare function local:full-doc($doc) {
 declare function data:summary-doc($doc) {
     let $frbrnumber := andoc:FRBRnumber($doc)
     let $frbrcountry := andoc:FRBRcountry($doc)
+    (:
     let $th-available := 
         if (data:thumbnail-available($doc)) then
             "true"
         else
             "false"
+            :)
     return
     <gwd:exprAbstract expr-iri="{andoc:expression-FRBRthis-value($doc)}"
         work-iri="{andoc:work-FRBRthis-value($doc)}" xmlns:gwd="http://gawati.org/ns/1.0/data">
@@ -239,7 +241,7 @@ declare function data:summary-doc($doc) {
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
         <gwd:componentLink src="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
-        <gwd:thumbnailPresent value="{$th-available}" />
+        <!-- <gwd:thumbnailPresent value="{$th-available}" /> -->
      </gwd:exprAbstract>
 };
 

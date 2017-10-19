@@ -41,6 +41,7 @@ declare namespace xh="http://www.w3.org/1999/xhtml";
 import module namespace http="http://expath.org/ns/http-client";
 import module namespace config="http://gawati.org/xq/db/config" at "../modules/config.xqm";
 import module namespace data="http://gawati.org/xq/db/data" at "../modules/data.xql";
+import module namespace search="http://gawati.org/xq/db/search" at "../modules/search.xql";
 import module namespace caching="http://gawati.org/xq/db/caching" at "../modules/caching.xql";
 (:~
  : This Service provides returns the 10 most recent documents in the system. 
@@ -197,6 +198,19 @@ function services:search-years-summary($year as xs:string*, $count as xs:string*
             $map-docs('data')
             }
         </gwd:exprAbstracts>
+    </gwd:package>
+};
+
+declare
+    %rest:GET
+    %rest:path("/gw/searchAC")
+    %rest:query-param("query", "{$query}", "Legal")
+    %rest:produces("application/xml", "text/xml")
+function services:searchAC($query as xs:string*) {
+    let $result-docs := search:search($query)
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        {$result-docs}
     </gwd:package>
 };
 
