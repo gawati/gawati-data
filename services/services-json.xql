@@ -46,20 +46,27 @@ declare
      %rest:query-param("doclang", "{$doclang}", "eng")
      %rest:query-param("count", "{$count}", "10")
      %rest:query-param("from", "{$from}", "1")
-    %rest:produces("application/json")
+     %rest:produces("application/json")
+     %output:media-type("application/json")
+     %output:method("json")    
 function services-json:search-languages-summary(
     $doclang as xs:string*, 
     $count as xs:string*, 
     $from as xs:string*
     ) {
-    serialize(
-        services:search-languages-summary($doclang, $count, $from), 
-        <output:serialization-parameters>
-            <output:method>json</output:method>
-        </output:serialization-parameters>
-    )
+    services:search-languages-summary($doclang, $count, $from)
 };
 
+declare
+    %rest:GET
+    %rest:path("/gw/searchAC/json")
+    %rest:query-param("query", "{$query}", "Legal")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")    
+function services-json:searchAC($query as xs:string*) {
+        services:searchAC($query)
+};
 
 
 declare
