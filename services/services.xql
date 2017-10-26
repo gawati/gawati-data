@@ -35,6 +35,7 @@ xquery version "3.1";
 module namespace services="http://gawati.org/xq/db/services";
 declare namespace gw="http://gawati.org/ns/1.0";
 declare namespace gwd="http://gawati.org/ns/1.0/data";
+declare namespace pkg="http://expath.org/ns/pkg";
 declare namespace rest="http://exquery.org/ns/restxq";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace xh="http://www.w3.org/1999/xhtml";
@@ -43,6 +44,7 @@ import module namespace config="http://gawati.org/xq/db/config" at "../modules/c
 import module namespace data="http://gawati.org/xq/db/data" at "../modules/data.xql";
 import module namespace search="http://gawati.org/xq/db/search" at "../modules/search.xql";
 import module namespace caching="http://gawati.org/xq/db/caching" at "../modules/caching.xql";
+
 (:~
  : This Service provides returns the 10 most recent documents in the system. 
  : Recency is established based on Updated date (which is different from Modified date). 
@@ -424,4 +426,23 @@ function services:home() {
     let $doc := doc($config:app-root || "/index.xml")
     return
         <xh:html>{$doc/xh:html/child::*}</xh:html>
+};
+
+(:~
+ : This is provided just to check if the RestXQ services are functioning
+ : @returns XHTML document index.xml from the database
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/about")
+    %rest:produces("text/plain")
+function services:about() {
+    let $doc := doc($config:app-root || "/expath-pkg.xml")
+    return
+        serialize(
+            "package=" || data($doc/pkg:package/@abbrev) || ";" || "version=" ||  data($doc/pkg:package/@version) || ";date=" || data($doc/pkg:package/@date) ,
+            <output:serialization-parameters>
+                <output:method>text</output:method>
+            </output:serialization-parameters>
+        )
 };

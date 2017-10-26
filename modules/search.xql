@@ -92,7 +92,7 @@ declare function search:search($word as xs:string) {
 
 
 declare function search:process-group($docs as item()*, $group-name as xs:string, $search as xs:string, $w-search as xs:string) {
-   for $doc at $pos in ($docs)[position() = 1 to 5] 
+   for $doc at $pos in $docs[position() = 1 to 5]
     return
         search:process-result($doc, $group-name, $search, $w-search, $pos)
 };
@@ -107,34 +107,34 @@ declare function search:process-result($doc as item()*, $group-name as xs:string
 declare function search:search-group-keyword($coll as item()*, $search as xs:string, $w-search as xs:string ) {
     $coll//an:akomaNtoso[
         .//an:classification/an:keyword[
-            ft:query(@showAs, $w-search) or ft:query(@value, $search)
+            contains(@showAs, $w-search) or contains(@value, $search)
             ]
-      ]/parent::node
+      ]/parent::node()
 };
 
 
 declare function search:search-group-title($coll as item()*, $search as xs:string, $w-search as xs:string ) {
     $coll//an:akomaNtoso[
-        .//an:publication[ft:query(@showAs, $w-search)]
-      ]/parent::node
+        .//an:publication[contains(@showAs, $w-search)]
+      ]/parent::node()
 };
 
 
 declare function search:search-group-country($coll as item()*, $search as xs:string, $w-search as xs:string) {
     $coll//an:akomaNtoso[
-       .//an:FRBRcountry[ft:query(@showAs, $search)]
-      ]/parent::node
+       .//an:FRBRcountry[contains(@showAs, $search)]
+      ]/parent::node()
 };
 
 declare function search:search-group-theme($coll as item()*, $search as xs:string, $w-search as xs:string) {
     $coll//an:akomaNtoso[
-       .//an:TLCConcept[ft:query(@showAs, $w-search)]   
-      ]/parent::node
+       .//an:TLCConcept[contains(@showAs, $w-search)]   
+      ]/parent::node()
 };
 
 
 declare function search:search-group-number($coll as item()*, $search as xs:string, $w-search as xs:string ) {
     $coll//an:akomaNtoso[
        .//an:FRBRnumber[ft:query(@showAs, $search)]
-      ]/parent::node
+      ]/parent::node()
 };
