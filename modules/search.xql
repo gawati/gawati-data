@@ -12,6 +12,19 @@ declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
 import module namespace common="http://gawati.org/xq/db/common" at "common.xql";
 import module namespace data="http://gawati.org/xq/db/data" at "data.xql";
 
+(:~
+ : 2017-28-10
+ :      - performance tuning, used subsequence() at the individual query level instead of [position() = 1 to 5]
+ :      - split [contains(@showAs, $x) or contains(@value, $x)] into 2 queries which are unioned since index 
+ :         coverage is better
+ :      - modified index configs after monex index profiling
+ :)
+
+
+
+(:~
+ : Main Search entry point function
+ :)
 declare function search:search($word as xs:string) {
     let $coll := common:doc-collection()
     let $w-word := concat($word, "*")
@@ -92,7 +105,7 @@ declare function search:search($word as xs:string) {
 
 
 declare function search:process-group($docs as item()*, $group-name as xs:string, $search as xs:string, $w-search as xs:string) {
-   for $doc at $pos in $docs[position() = 1 to 5]
+   for $doc at $pos in $docs
     return
         search:process-result($doc, $group-name, $search, $w-search, $pos)
 };
@@ -105,36 +118,62 @@ declare function search:process-result($doc as item()*, $group-name as xs:string
 };
 
 declare function search:search-group-keyword($coll as item()*, $search as xs:string, $w-search as xs:string ) {
-    $coll//an:akomaNtoso[
-        .//an:classification/an:keyword[
-            contains(@showAs, $w-search) or contains(@value, $search)
-            ]
-      ]/parent::node()
+    subsequence(
+        $coll//an:akomaNtoso[
+            .//an:classification/an:keyword[
+                contains(@showAs, $w-search)
+                ]
+          ]/parent::node()
+          union
+        $coll//an:akomaNtoso[
+            .//an:classification/an:keyword[
+                contains(@value, $search)
+                ]
+          ]/parent::node(),
+        1,
+        5
+    )
 };
 
 
 declare function search:search-group-title($coll as item()*, $search as xs:string, $w-search as xs:string ) {
-    $coll//an:akomaNtoso[
-        .//an:publication[contains(@showAs, $w-search)]
-      ]/parent::node()
+    subsequence(
+        $coll//an:akomaNtoso[
+            .//an:publication[contains(@showAs, $w-search)]
+          ]/parent::node(),
+          1,
+          5
+    )
 };
 
 
 declare function search:search-group-country($coll as item()*, $search as xs:string, $w-search as xs:string) {
-    $coll//an:akomaNtoso[
-       .//an:FRBRcountry[contains(@showAs, $search)]
-      ]/parent::node()
+    subsequence(
+        $coll//an:akomaNtoso[
+           .//an:FRBRcountry[contains(@showAs, $search)]
+          ]/parent::node(),
+        1,
+        5
+    )
 };
 
 declare function search:search-group-theme($coll as item()*, $search as xs:string, $w-search as xs:string) {
-    $coll//an:akomaNtoso[
-       .//an:TLCConcept[contains(@showAs, $w-search)]   
-      ]/parent::node()
+    subsequence(
+        $coll//an:akomaNtoso[
+           .//an:TLCConcept[contains(@showAs, $w-search)]   
+          ]/parent::node(),
+        1,
+        5
+     )
 };
 
 
 declare function search:search-group-number($coll as item()*, $search as xs:string, $w-search as xs:string ) {
-    $coll//an:akomaNtoso[
-       .//an:FRBRnumber[ft:query(@showAs, $search)]
-      ]/parent::node()
+    subsequence(
+        $coll//an:akomaNtoso[
+           .//an:FRBRnumber[contains(@showAs, $search)]
+          ]/parent::node(),
+        1,
+        5
+    )
 };
