@@ -53,7 +53,7 @@ declare function andoc:combined-doctype-name($doc as document-node()){
 :)
 declare function andoc:doctype-name($doc as document-node()) {
     map {
-        "doctype-element" := $doc/an:akomaNtoso/*/local-name(),
+        "doctype-element" := data($doc/an:akomaNtoso/*/local-name()),
         "doctype-name" := data($doc/an:akomaNtoso/*/@name)
     }
 };
