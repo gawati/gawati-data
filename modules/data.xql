@@ -176,7 +176,7 @@ declare
 %private 
 function 
 data:get-embedded-pdf-name($doc) {
-    let $component := $doc//an:body/an:book/an:componentRef[@alt]
+    let $component := $doc//(an:body|an:debateBody|an:mainBody|an:judgmentBody)/an:book/an:componentRef[@alt]
     let $file := data($component/@alt)    
     return $file
 };

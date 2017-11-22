@@ -293,6 +293,26 @@ function services:doc-iri($iri) {
             )
 };
 
+(:~
+ : Retrieves an AKoma Ntoso XML document based on its IRI
+ : The expression IRI from the FRBRthis element is used to retrieve the document
+ : @params $iri the expression-this iri of the document 
+ : @returns REST response with the document as text/xml
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/doc/summary")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:doc-summary-iri($iri) {
+    let $doc := data:doc($iri)
+    return
+        <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+            { data:summary-doc($doc) }
+        </gwd:package>
+};
+
+
 
 declare
     %rest:GET

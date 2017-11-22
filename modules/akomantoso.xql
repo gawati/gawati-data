@@ -23,7 +23,8 @@ xquery version "3.1";
 :
 : Written for AkomaNtoso 3.0 / NS:http://docs.oasis-open.org/legaldocml/ns/akn/3.0
 : @author Ashok Hariharan
-: @version 1.2
+: @version 1.3
+: Updated: 2017-11-19 - fixes to support all an doctypes correctly
 :)
 module namespace andoc="http://exist-db.org/xquery/apps/akomantoso30";
 declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
@@ -33,7 +34,9 @@ declare function andoc:root($doc as document-node()) {
     return $root
 };
 
-
+(:
+: Returns the structureal document type of the document
+:) 
 declare function andoc:combined-doctype-name($doc as document-node()){
     let $doctype := $doc/an:akomaNtoso/*/name()
     let $docname := $doc/an:akomaNtoso/*/@name
@@ -41,6 +44,18 @@ declare function andoc:combined-doctype-name($doc as document-node()){
         if ($docname)
         then $doctype || "~" || $docname
         else $doctype
+};
+
+(:
+: Returns the doctype name of the structural type in a map. 
+: Returns the element name and the value in the @name attribute on that
+: element
+:)
+declare function andoc:doctype-name($doc as document-node()) {
+    map {
+        "doctype-element" := $doc/an:akomaNtoso/*/local-name(),
+        "doctype-name" := data($doc/an:akomaNtoso/*/@name)
+    }
 };
 
 declare function andoc:document-doctype-generic($doc as document-node()){
@@ -55,7 +70,7 @@ declare function andoc:document-doctype-generic($doc as document-node()){
                 an:debateReport|
                 an:doc|
                 an:documentCollection|
-                an:judgement|
+                an:judgment|
                 an:officialGazette|
                 an:portion|
                 an:statement
@@ -85,7 +100,7 @@ declare function andoc:work-FRBRuri($doc as document-node()){
 
 declare function andoc:work-FRBRthis-value($doc as document-node()){
     let $this := andoc:work-FRBRthis($doc)
-    return $this/@value
+    return data($this/@value)
 };
 
 declare function andoc:work-FRBRthis($doc as document-node()){
@@ -97,7 +112,7 @@ declare function andoc:work-FRBRthis($doc as document-node()){
 
 declare function andoc:work-FRBRthis-value($doc as document-node()){
     let $this := andoc:work-FRBRthis($doc)
-    return $this/@value
+    return data($this/@value)
 };
 
 
@@ -111,6 +126,16 @@ declare function andoc:FRBRcountry($doc as document-node()){
     let $country := andoc:FRBRWork($doc)/an:FRBRcountry
     return $country
 };
+
+declare function andoc:FRBRcountry-value($doc as document-node()){
+    data(andoc:FRBRcountry($doc)/@value)
+};
+
+
+declare function andoc:FRBRcountry-showas($doc as document-node()){
+    data(andoc:FRBRcountry($doc)/@showAs)
+};
+
 
 declare function andoc:expression-FRBRuri($doc as document-node()){
     let $expr := andoc:FRBRExpression($doc)
@@ -146,6 +171,16 @@ declare function andoc:FRBRnumber($doc as document-node()){
     andoc:FRBRWork($doc)/an:FRBRnumber
 };
 
+
+declare function andoc:FRBRnumber-value($doc as document-node()){
+    data(andoc:FRBRWork($doc)/an:FRBRnumber/@value)
+};
+
+
+declare function andoc:FRBRnumber-showas($doc as document-node()){
+    data(andoc:FRBRWork($doc)/an:FRBRnumber/@showAs)
+};
+
 declare function andoc:FRBRlanguage($doc as document-node()){
     let $expr := andoc:FRBRExpression($doc)
     return $expr/an:FRBRlanguage
@@ -167,7 +202,7 @@ declare function andoc:identification($doc as document-node()){
 };
 
 declare function andoc:mainBody($doc as document-node()){
-    let $mainbody := andoc:document-doctype-generic($doc)/an:mainBody
+    let $mainbody := andoc:document-doctype-generic($doc)/(an:mainBody|an:debateBody|an:judgmentBody|an:body)
     return $mainBody
 };
 
@@ -192,22 +227,22 @@ declare function andoc:publication($doc as document-node()) {
 
 declare function andoc:publication-date($doc as document-node()) {
     let $publication := andoc:publication($doc)
-    return $publication/@date
+    return data($publication/@date)
 };
 
 declare function andoc:publication-showas($doc as document-node()) {
     let $publication := andoc:publication($doc)
-    return $publication/@showAs
+    return data($publication/@showAs)
 };
 
 declare function andoc:publication-name($doc as document-node()) {
     let $publication := andoc:publication($doc)
-    return $publication/@name
+    return data($publication/@name)
 };
 
 declare function andoc:publication-number($doc as document-node()) {
     let $publication := andoc:publication($doc)
-    return $publication/@number
+    return data($publication/@number)
 };
 
 
@@ -228,6 +263,10 @@ declare function andoc:docNumber($doc as document-node()){
     return $doc-number
 };
 
+
+declare function andoc:keywords($doc as document-node()) {
+    $doc//an:classification/an:keyword
+};
 (:
     Returns first matching docType element
 :)
