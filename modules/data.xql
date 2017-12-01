@@ -14,7 +14,7 @@ declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
 import module namespace config="http://gawati.org/xq/db/config" at "config.xqm";
 import module namespace andoc="http://exist-db.org/xquery/apps/akomantoso30" at "akomantoso.xql";
 import module namespace common="http://gawati.org/xq/db/common" at "common.xql";
-
+import module namespace langs="http://gawati.org/xq/portal/langs" at "langs.xql";
 
 declare function data:doc($this-iri as xs:string) {
     let $coll := common:doc-collection()
@@ -227,6 +227,8 @@ declare function data:summary-doc($doc) {
     let $frbrcountry := andoc:FRBRcountry($doc)
     let $pdfname := $doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt
     let $pdfname-tok := tokenize($pdfname, "\.")
+    let $lang-code := andoc:FRBRlanguage-language($doc)
+    let $lang-name := langs:lang3-name($lang-code)
     let $thref := "th_" || string-join($pdfname-tok[1 to count($pdfname-tok) - 1], "") || ".png"
     return
     <gwd:exprAbstract expr-iri="{andoc:expression-FRBRthis-value($doc)}"
@@ -235,7 +237,7 @@ declare function data:summary-doc($doc) {
         <gwd:date name="expression" value="{andoc:expression-FRBRdate-date($doc)}" />
         <gwd:type name="legislation" aknType="act" />
         <gwd:country value="{andoc:FRBRcountry($doc)/@value}" >{$frbrcountry/@showAs}</gwd:country>
-        <gwd:language value="{andoc:FRBRlanguage-language($doc)}" />
+        <gwd:language value="{andoc:FRBRlanguage-language($doc)}" showAs="{$lang-name}" />
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
         <gwd:componentLink src="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
@@ -291,7 +293,9 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
         else
             map {
             "records" := $total-docs,
-            "total-pages" := xs:integer($total-docs div $count) + 1,
+            "page-size" := $count,
+            "items-from" := $from,
+            "total-pages" := ceiling($total-docs div $count) ,
             "current-page" := xs:integer($from div $count) + 1,
             "data" :=
                 for $s-d in subsequence($docs-in-order, $from, $count)
@@ -316,7 +320,9 @@ declare function local:process-search($func as function(item()) as item()*,  $co
             return
                 map {
                     "records" := $total-docs,
-                    "total-pages" := xs:integer($total-docs div $count) + 1,
+                    "page-size" := $count,
+                    "items-from" := $from,                    
+                    "total-pages" := ceiling($total-docs div $count) ,
                     "current-page" := xs:integer($from div $count) + 1,
                     "data" :=
                         for $s-d in subsequence($docs-in-order, $from, $count )

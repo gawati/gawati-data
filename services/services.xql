@@ -98,6 +98,8 @@ function services:recent-expressions-summary($count as xs:string*, $from as xs:s
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc"
             records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}">
             {
@@ -121,6 +123,8 @@ function services:search-countries-summary($country as xs:string*, $count as xs:
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc" 
             records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}"> 
             {
@@ -144,6 +148,8 @@ function services:search-languages-summary($doclang as xs:string*, $count as xs:
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc" 
             records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}"> 
             {
@@ -171,6 +177,8 @@ function services:search-keywords-summary($kw as xs:string*, $count as xs:string
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc" 
             records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"            
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}"> 
             {
@@ -194,6 +202,8 @@ function services:search-years-summary($year as xs:string*, $count as xs:string*
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc" 
             records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"            
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}"> 
             {
@@ -230,6 +240,8 @@ function services:themes-expressions-summary($themes as xs:string*, $count as xs
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:exprAbstracts orderedby="dt-updated-desc" 
             records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"            
             totalpages="{$map-docs('total-pages')}" 
             currentpage="{$map-docs('current-page')}"> 
             {
@@ -291,6 +303,25 @@ function services:doc-iri($iri) {
             </rest:response>,
             document {$doc}
             )
+};
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/xml")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:doc-iri-xml($iri) {
+    let $doc := data:doc($iri)
+    
+    return
+       if (empty($doc)) then
+            <gwd:package timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+                <gwd:status code="404" message="Document for IRI not found" />
+            </gwd:package>
+       else
+            <gwd:package timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+                {document {$doc} }
+            </gwd:package>
 };
 
 (:~

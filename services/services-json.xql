@@ -68,6 +68,44 @@ function services-json:searchAC($query as xs:string*) {
         services:searchAC($query)
 };
 
+declare
+    %rest:GET
+    %rest:path("/gw/themes/expressions/summary/json")
+     %rest:query-param("themes", "{$themes}", "unknown")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")  
+function services-json:themes-expressions-summary($themes as xs:string*, $count as xs:string*, $from as xs:string*) {
+   services:themes-expressions-summary($themes, $count, $from)
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/recent/expressions/summary/json")
+     %rest:query-param("count", "{$count}", "10")
+     %rest:query-param("from", "{$from}", "1")    
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")  
+function services-json:recent-expressions-summary($count as xs:string*, $from as xs:string*) {
+    services:recent-expressions-summary($count, $from)
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/json")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")  
+function services-json:doc-iri($iri) {
+   services:doc-iri-xml($iri)
+};
+
 
 declare
     %rest:GET
