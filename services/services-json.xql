@@ -57,6 +57,49 @@ function services-json:search-languages-summary(
     services:search-languages-summary($doclang, $count, $from)
 };
 
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/years/summary/json")
+    %rest:query-param("year", "{$year}", "2016")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")    
+function services-json:search-years-summary($year as xs:string*, $count as xs:string*, $from as xs:string*) {
+    services:search-years-summary($year, $count, $from)
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/keywords/summary/json")
+    %rest:query-param("kw", "{$kw}", "Legislation")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")    
+function services-json:search-keywords-summary($kw as xs:string*, $count as xs:string*, $from as xs:string*) {
+    services:search-keywords-summary($kw, $count, $from)
+};
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/countries/summary/json")
+    %rest:query-param("country", "{$country}", "ke")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")    
+function services-json:search-countries-summary($country as xs:string*, $count as xs:string*, $from as xs:string*) {
+    services:search-countries-summary($country, $count, $from)
+};
+
+
+
 declare
     %rest:GET
     %rest:path("/gw/searchAC/json")
@@ -105,6 +148,7 @@ declare
 function services-json:doc-iri($iri) {
    services:doc-iri-xml($iri)
 };
+
 
 
 declare
