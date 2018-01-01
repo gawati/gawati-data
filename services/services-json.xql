@@ -164,3 +164,17 @@ function services-json:filter-cache(
         </output:serialization-parameters>
     )
 };
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/search/filter/json")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:query-param("q", "{$q}", "")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")  
+function services-json:search-filter($count as xs:string*, $from as xs:string*, $q as xs:string*) {
+    services:search-filter($count, $from, $q)
+};

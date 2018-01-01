@@ -109,6 +109,45 @@ function services:recent-expressions-summary($count as xs:string*, $from as xs:s
     </gwd:package>
 };
 
+(:~
+ :
+ : This service provides support for dynamic filtered searches on the Data Service
+ : The queries are constructed in the front-end, and passed to the service middle-ware
+ : which constructs the XQuery and calls the data service.
+ :
+ : @params $count 
+ : @params $from 
+ : @params $q This is a query format :
+ : e.g. the following is search filter by language:
+ : [.//an:FRBRlanguage[ @language eq 'eng' ]]
+ : and the following is is a search by country (in this case by 'burkina faso' and 'mauritania')
+ : [.//an:FRBRcountry[ @value eq 'bf' or @value eq 'mr' ]]
+ : queries can also be stacked:
+ : [.//an:FRBRlanguage[ @language eq 'eng' ]][.//an:FRBRcountry[ @value eq 'bf' or @value eq 'mr' ]]
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/search/filter")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:query-param("q", "{$q}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:search-filter($count as xs:string*, $from as xs:string*, $q as xs:string*) {
+    let $map-docs := data:search-filter(xs:integer($count), xs:integer($from), $q)
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:exprAbstracts orderedby="natural" 
+            records="{$map-docs('records')}"
+            pagesize="{$map-docs('page-size')}"
+            itemsfrom="{$map-docs('items-from')}"
+            totalpages="{$map-docs('total-pages')}" 
+            currentpage="{$map-docs('current-page')}"> 
+            {
+            $map-docs('data')
+            }
+        </gwd:exprAbstracts>
+    </gwd:package>
+};
 
 declare
     %rest:GET

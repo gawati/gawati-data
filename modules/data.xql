@@ -21,6 +21,8 @@ declare function data:doc($this-iri as xs:string) {
     return andoc:find-document($coll, $this-iri)
 };
 
+
+
 (:~
  : Returns the 'n' most recent documents in the System as per updated date
  : @param $count integer value indicating max number of documents to return
@@ -44,6 +46,23 @@ declare function data:recent-docs-summary($count as xs:integer, $from as xs:inte
     return
         local:recent-docs($func, $count, $from)
 };
+
+(:~
+ : This API is used by a SERVER side api, not meant for client consumption. Allows 
+ : sending constructed XQueries to the data server. The constructed query is executed within
+ : a collection context XPath. 
+ : @param $count integer value indicating max number of documents to return
+ : @param $from from where to start returning the documents
+ : @param $qry the constructed XQuery
+ : @returns gwd envelop with upto 'n' AKN documents
+ :)
+declare function data:search-filter($count as xs:integer, $from as xs:integer, $qry as xs:string) {
+    (: This is the higher order function to be passed to the search api, it generates the abstract :)
+    let $func := data:summary-doc#1
+    return
+        local:search-filter-docs($func, $count, $from, $qry)
+};
+
 
 declare function data:search-country-summary($country as xs:string*, $count as xs:integer, $from as xs:integer) {
     let $func := data:summary-doc#1
@@ -95,7 +114,7 @@ declare function data:theme-docs-summary($themes as xs:string*, $count as xs:int
  : @returns gwd envelope with upto 'n' AKN Works, and within each work its expressions
  :)
 declare function data:recent-works($count as xs:integer) {
-  let $sc := config:storage-config("legaldocs")
+    let $sc := config:storage-config("legaldocs")
     let $coll := collection($sc("collection"))
     let $docs := $coll//an:akomaNtoso/parent::node()
     (:
@@ -289,21 +308,68 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
     return
         if (count($docs-in-order) lt $from) then
             (: $from is greater than the number of available docs :)
-            ()
+            map {
+                "records" := 0,
+                "total-page" := 0,
+                "current-page" := 0,
+                "data" := 
+                    <gwd:empty>
+                        <gwd:message lang="eng">
+                        No documents dound
+                        </gwd:message>
+                    </gwd:empty>
+            }    
         else
             map {
-            "records" := $total-docs,
-            "page-size" := $count,
-            "items-from" := $from,
-            "total-pages" := ceiling($total-docs div $count) ,
-            "current-page" := xs:integer($from div $count) + 1,
-            "data" :=
-                for $s-d in subsequence($docs-in-order, $from, $count)
-                    return $func($s-d)
+                "records" := $total-docs,
+                "page-size" := $count,
+                "items-from" := $from,
+                "total-pages" := ceiling($total-docs div $count) ,
+                "current-page" := xs:integer($from div $count) + 1,
+                "data" :=
+                    for $s-d in subsequence($docs-in-order, $from, $count)
+                        return $func($s-d)
             }            
 
 };
 
+declare function local:search-filter-docs(
+    $func as function(item()) as item()*, 
+    $count as xs:integer, 
+    $from as xs:integer, 
+    $qry as xs:string
+    ) {
+    let $sc := config:storage-config("legaldocs")
+    let $all-docs := collection($sc("collection"))//an:akomaNtoso
+    let $docs := util:eval( "$all-docs" || $qry || "/parent::node()" )
+    let $total-docs := count($docs)
+    return
+        if ($total-docs gt 0) then
+            map {
+                "records" := $total-docs,
+                "page-size" := $count,
+                "items-from" := $from,                    
+                "total-pages" := ceiling($total-docs div $count) ,
+                "current-page" := xs:integer($from div $count) + 1,
+                "data" :=
+                    for $s-d in subsequence($docs, $from, $count )
+                        return $func($s-d)
+            }    
+        else
+            (: $from is greater than the number of available docs :)
+            map {
+                "records" := 0,
+                "total-page" := 0,
+                "current-page" := 0,
+                "data" := 
+                    <gwd:empty>
+                        <gwd:message lang="eng">
+                        No documents dound
+                        </gwd:message>
+                    </gwd:empty>
+            
+            }    
+};
 
 declare function local:process-search($func as function(item()) as item()*,  $coll-context, $from as xs:integer, $count as xs:integer, $docs-str as xs:string) {
     let $docs := util:eval($docs-str)
