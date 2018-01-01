@@ -9,4 +9,18 @@
         <mkdir dir="${build.dir}"/>
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*"/>
     </target>
+    <target name="provide">
+        <fail message="Property &quot;dst&quot; must point at destination directory: -Ddst=/to/my/folder">
+            <condition>
+                <not>
+                    <isset property="dst"/>
+                </not>
+            </condition>
+        </fail>
+        <copy todir="${dst}" flatten="true">
+            <resources>
+                <file file="${build.dir}/${project.app}-${project.version}.xar"/>
+            </resources>
+        </copy>
+    </target>
 </project>
