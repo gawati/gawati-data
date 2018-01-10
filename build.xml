@@ -22,5 +22,10 @@
                 <file file="${build.dir}/${project.app}-${project.version}.xar"/>
             </resources>
         </copy>
+        <symlink link="${dst}/${project.app}-latest.xar" resource="${project.app}-${project.version}.xar" overwrite=true>
+            <condition>
+                <isset property="islatest"/>
+            </condition>
+        </symlink>
     </target>
 </project>

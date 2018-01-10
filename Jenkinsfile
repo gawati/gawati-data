@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Upload') {
             steps {
-                sh 'ant -Ddst=/var/www/html/dl.gawati.org/dev provide'
+                sh 'ant -Ddst=/var/www/html/dl.gawati.org/dev -Dislatest=true provide'
             }
         }
         stage('Clean') {
