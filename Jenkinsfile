@@ -1,5 +1,11 @@
 pipeline {
     agent any
+
+    environment {
+        // CI="false"
+        DLD="/var/www/html/dl.gawati.org/dev"
+    }
+
     stages {
         stage('Prerun Diag') {
             steps {
@@ -13,7 +19,8 @@ pipeline {
         }
         stage('Upload') {
             steps {
-                sh 'ant -Ddst=/var/www/html/dl.gawati.org/dev -Dislatest=true provide'
+                sh 'ant -Ddst=$DLD provide'
+                sh 'ant -Ddst=$DLD setlatest'
             }
         }
         stage('Clean') {
