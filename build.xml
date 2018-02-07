@@ -2,6 +2,7 @@
 <project default="xar" name="gawati-data">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
+    <property name="project.gawati-version" value="1.0.7"/>
     <property name="project.spec" value="${package(spec)}" />    
     <property name="project.app" value="gawati-data"/>
     <property name="build.dir" value="build"/>
@@ -9,29 +10,7 @@
         <mkdir dir="${build.dir}"/>
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*"/>
     </target>
-    <target name="provide">
-        <fail message="Property &quot;dst&quot; must point at destination directory: -Ddst=/to/my/folder">
-            <condition>
-                <not>
-                    <isset property="dst"/>
-                </not>
-            </condition>
-        </fail>
-        <copy todir="${dst}" flatten="true">
-            <resources>
-                <file file="${build.dir}/${project.app}-${project.version}.xar"/>
-            </resources>
-        </copy>
-    </target>
-    <target name="setlatest">
-        <fail message="Property &quot;dst&quot; must point at destination directory: -Ddst=/to/my/folder">
-            <condition>
-                <not>
-                    <isset property="dst"/>
-                </not>
-            </condition>
-        </fail>
-        <symlink link="${dst}/${project.app}-latest.xar" resource="${project.app}-${project.version}.xar" overwrite="true">
-        </symlink>
+    <target name="vars">
+        <echoproperties/>
     </target>
 </project>

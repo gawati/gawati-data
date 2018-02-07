@@ -1,15 +1,15 @@
 pipeline {
     agent any
 
-//    define {
-//      def COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
-//      def STATUS_MAP = ['SUCCESS': 'success', 'FAILURE': 'failed', 'UNSTABLE': 'failed', 'ABORTED': 'failed']
-//    }
+//  define {
+//    def COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
+//    def STATUS_MAP = ['SUCCESS': 'success', 'FAILURE': 'failed', 'UNSTABLE': 'failed', 'ABORTED': 'failed']
+//  }
 
-    environment {
-        // CI="false"
-        DLD="/var/www/html/dl.gawati.org/dev"
-    }
+//  environment {
+//      // CI="false"
+//      DLD="/var/www/html/dl.gawati.org/dev"
+//  }
 
     stages {
         stage('Prerun Diag') {
@@ -24,8 +24,15 @@ pipeline {
         }
         stage('Upload') {
             steps {
-                sh 'ant -Ddst=$DLD provide'
-                sh 'ant -Ddst=$DLD setlatest'
+                sh 'rm -rf .gitignore .git Jenkinsfile'
+                script {
+                    sh '''
+wget -qO- http://dl.gawati.org/dev/jenkinslib-latest.tbz | tar -xvjf -
+. ./jenkinslib.sh
+PkgXar
+PkgLinkAll
+'''
+                }
             }
         }
         stage('Clean') {
