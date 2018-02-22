@@ -9,6 +9,7 @@ xquery version "3.1";
 module namespace data="http://gawati.org/xq/db/data";
 declare namespace gw="http://gawati.org/ns/1.0";
 declare namespace gwd="http://gawati.org/ns/1.0/data";
+declare namespace pdfft="http://gawati.org/ns/1.0/content/pdf";
 declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
 
 import module namespace config="http://gawati.org/xq/db/config" at "config.xqm";
@@ -22,6 +23,20 @@ declare function data:doc($this-iri as xs:string) {
 };
 
 
+(:~
+ : Returns the Page IDs of a given document containing the search term
+ : @param $this-iri the expression-this iri of the document
+ : @params $term search term to look for in the document
+ : @returns Page IDs containing the search term
+ :)
+declare function data:doc-fulltext-search($this-iri as xs:string, $term as xs:string) {
+    let $coll := common:doc-fulltext-collection()
+    let $doc := $coll//pdfft:pages[@connectorID eq $this-iri]/parent::node()
+    let $pageIDs := document{$doc}/pdfft:pages/pdfft:page[contains(normalize-space(.),$term)]
+    return map {
+        "pages" := data($pageIDs/@id)
+    }
+};
 
 (:~
  : Returns the 'n' most recent documents in the System as per updated date

@@ -16,3 +16,8 @@ declare function common:doc-collection() {
     let $sc := config:storage-config("legaldocs")
     return collection($sc("collection"))
 };
+
+declare function common:doc-fulltext-collection() {
+    let $sc := config:storage-config("legaldocsText")
+    return collection($sc("collection"))
+};
