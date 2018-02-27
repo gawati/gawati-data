@@ -517,23 +517,13 @@ declare
     %rest:query-param("term", "{$term}", "")
     %rest:produces("application/xml", "text/xml")
 function services:search-doc($iri, $term) {
-    let $doc := data:doc($iri)
     let $pages := data:doc-fulltext-search($iri, $term)
     return
-    if (not(empty($pages('pages')))) then
-        (
-        <gwd:empty>
-            <gwd:message lang="eng">
-            Search term '{$term}' found in the following pages: {$pages('pages')}
-            </gwd:message>
-        </gwd:empty>
-        )
-    else
-        <gwd:empty>
-            <gwd:message lang="eng">
-            Search term '{$term}' was not found.
-            </gwd:message>
-        </gwd:empty>
+    <gwd:package timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:pages> {
+            $pages('pages')
+        }</gwd:pages>
+    </gwd:package>
 };
 
 (:~
