@@ -6,11 +6,6 @@ pipeline {
 //    def STATUS_MAP = ['SUCCESS': 'success', 'FAILURE': 'failed', 'UNSTABLE': 'failed', 'ABORTED': 'failed']
 //  }
 
-//  environment {
-//      // CI="false"
-//      DLD="/var/www/html/dl.gawati.org/dev"
-//  }
-
     stages {
         stage('Prerun Diag') {
             steps {
@@ -30,7 +25,7 @@ pipeline {
 wget -qO- http://dl.gawati.org/dev/jenkinslib-latest.tbz | tar -xvjf -
 . ./jenkinslib.sh
 PkgXar
-PkgLinkAll
+PkgLinkLatest
 '''
                 }
             }
