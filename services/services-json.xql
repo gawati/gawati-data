@@ -189,3 +189,16 @@ declare
 function services-json:search-filter($count as xs:string*, $from as xs:string*, $q as xs:string*) {
     services:search-filter($count, $from, $q)
 };
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/search/json")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:query-param("term", "{$term}", "")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")
+function services-json:search-doc($iri, $term) {
+    services:search-doc($iri, $term)
+};
