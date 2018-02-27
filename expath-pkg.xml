@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://gawati.org/data" abbrev="gawati-data" version="1.9" spec="1.0" date="2018-01-01">
+<package xmlns="http://expath.org/ns/pkg" name="http://gawati.org/data" abbrev="gawati-data" version="1.10" spec="1.0" date="2018-01-01">
     <title>Gawati Data</title>
     <dependency package="http://exist-db.org/apps/shared"/>
 </package>

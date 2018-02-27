@@ -300,7 +300,7 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
     let $docs-in-order := 
         for $doc in $docs
             order by $doc//an:proprietary/gw:gawati/gw:dateTime[
-                @refersTo = '#dtUpdated'
+                @refersTo = '#dtModified'
                 ]/@datetime 
             descending
         return $doc
