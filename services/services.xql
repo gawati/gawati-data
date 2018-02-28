@@ -521,7 +521,7 @@ function services:search-doc($iri, $term) {
     return
     <gwd:package timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         <gwd:pages> {
-            $pages('pages')
+            $pages
         }</gwd:pages>
     </gwd:package>
 };
