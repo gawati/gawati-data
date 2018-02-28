@@ -9,7 +9,7 @@ xquery version "3.1";
 module namespace data="http://gawati.org/xq/db/data";
 declare namespace gw="http://gawati.org/ns/1.0";
 declare namespace gwd="http://gawati.org/ns/1.0/data";
-declare namespace pdfft="http://gawati.org/ns/1.0/content/pdf";
+declare namespace gft="http://gawati.org/ns/1.0/content/pdf";
 declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
 
 import module namespace config="http://gawati.org/xq/db/config" at "config.xqm";
@@ -31,11 +31,16 @@ declare function data:doc($this-iri as xs:string) {
  :)
 declare function data:doc-fulltext-search($this-iri as xs:string, $term as xs:string) {
     let $coll := common:doc-fulltext-collection()
-    let $doc := $coll//pdfft:pages[@connectorID eq $this-iri]/parent::node()
-    let $pageIDs := document{$doc}/pdfft:pages/pdfft:page[contains(normalize-space(.),$term)]
-    return map {
-        "pages" := data($pageIDs/@id)
-    }
+    let $lucene_query :=
+    <query>
+        <phrase slop="3">{$term}</phrase>
+    </query>
+    let $lucene_pageIDs := $coll//gft:pages[@connectorID eq $this-iri]/gft:page[ft:query(., $lucene_query)]
+    let $ngram_pageIDs := $coll//gft:pages[@connectorID eq $this-iri]/gft:page[ngram:contains(., $term)]
+    
+    let $pageIDs := (data($lucene_pageIDs/@id), data($ngram_pageIDs/@id))
+
+    return fn:distinct-values($pageIDs)
 };
 
 (:~
