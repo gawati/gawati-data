@@ -503,6 +503,28 @@ function services:pdf($iri) {
         </rest:response>
 };    
 
+(:~
+ : Searches the full text of the given IRI and returns the page number(s)
+ : of the matches
+ : @params $iri the expression-this iri of the document
+ : @params $term search term to look for in the document
+ : @returns REST response with the page numbers(s) of the matches
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/doc/search")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:query-param("term", "{$term}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:search-doc($iri, $term) {
+    let $pages := data:doc-fulltext-search($iri, $term)
+    return
+    <gwd:package timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        <gwd:pages> {
+            $pages
+        }</gwd:pages>
+    </gwd:package>
+};
 
 (:~
  : This is provided just to check if the RestXQ services are functioning
