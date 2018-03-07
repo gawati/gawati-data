@@ -319,10 +319,7 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
     let $docs := $coll//an:akomaNtoso/parent::node()
     let $docs-in-order := 
         for $doc in $docs
-            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
-                @refersTo = '#dtModified'
-                ]/@datetime 
-            descending
+            order by sort:index("SIRecent", $doc)
         return $doc
     let $total-docs := count($docs-in-order)
     return
