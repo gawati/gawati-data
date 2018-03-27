@@ -86,6 +86,17 @@ declare function search:search($word as xs:string) {
               )
             }
             </gwd:searchGroup>
+            <gwd:searchGroup name="ftsearch" label="Full text search">
+            { 
+               search:process-group(
+                data:coll-fulltext-search($word),
+                "ftsearch",
+                $word,
+                $w-word
+              )
+              
+            }
+            </gwd:searchGroup>
             <gwd:searchGroup name="number" label="Number">
             { 
               search:process-group(
