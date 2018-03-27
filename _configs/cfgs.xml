@@ -5,5 +5,9 @@
             <read id="gwdata"/>
             <write id="gwdata"/>
         </storage>
+        <storage name="legaldocsText" collection="../gw-data/akn_ft">
+            <read id="gwdata"/>
+            <write id="gwdata"/>
+        </storage>
     </storageConfigs>
 </config>

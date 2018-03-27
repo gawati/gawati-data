@@ -18,13 +18,14 @@ xquery version "3.1";
 
 (:~
  : This module provides JSON Endpoints for the Gawati Data server.
- : The JSON end-points are merely wrappers on the XML service end-points
+ : The Services from Gawati-Data output in both XML and JSON formats, 
+ : you just need to attach `json` at the end to typically get the json
+ : output of the XML output service
  :
  : in the eXist-db server. 
  : @version 1.0alpha
  : @author Ashok Hariharan
  :)
-
 module namespace services-json="http://gawati.org/xq/db/services-json";
 
 
@@ -36,19 +37,29 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 import module namespace services="http://gawati.org/xq/db/services" at "services.xql";
 import module namespace caching="http://gawati.org/xq/db/caching" at "../modules/caching.xql";
 
+
 (:~
- :  This is an example service implementation, that produces JSON output instead of XML.
- :  The JSON serializer is simply a wrapper on the XML service output
- :)
+ : Returns a listing summary of documents in the database.
+ : This API allows filtering documents by language. 
+ : Called as : 
+ : 
+ : @param $doclang - the language of the document to filter by
+ : @param $count - the number of documents to return
+ : @param $from - the point at the entire listing where to start returning documents from
+ : @return  the sum of $first and $second
+ : @author Ashok Hariharan
+ : @since 1.1
+ : 
+:)
 declare
     %rest:GET
     %rest:path("/gw/search/languages/summary/json")
-     %rest:query-param("doclang", "{$doclang}", "eng")
-     %rest:query-param("count", "{$count}", "10")
-     %rest:query-param("from", "{$from}", "1")
-     %rest:produces("application/json")
-     %output:media-type("application/json")
-     %output:method("json")    
+    %rest:query-param("doclang", "{$doclang}", "eng")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")    
 function services-json:search-languages-summary(
     $doclang as xs:string*, 
     $count as xs:string*, 
@@ -177,4 +188,17 @@ declare
     %output:method("json")  
 function services-json:search-filter($count as xs:string*, $from as xs:string*, $q as xs:string*) {
     services:search-filter($count, $from, $q)
+};
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/search/json")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:query-param("term", "{$term}", "")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")
+function services-json:search-doc($iri, $term) {
+    services:search-doc($iri, $term)
 };

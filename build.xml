@@ -2,7 +2,6 @@
 <project default="xar" name="gawati-data">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
-    <property name="project.gawati-version" value="1.0.7"/>
     <property name="project.spec" value="${package(spec)}" />    
     <property name="project.app" value="gawati-data"/>
     <property name="build.dir" value="build"/>

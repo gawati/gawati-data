@@ -9,6 +9,7 @@ xquery version "3.1";
 module namespace data="http://gawati.org/xq/db/data";
 declare namespace gw="http://gawati.org/ns/1.0";
 declare namespace gwd="http://gawati.org/ns/1.0/data";
+declare namespace gft="http://gawati.org/ns/1.0/content/pdf";
 declare namespace an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0";
 
 import module namespace config="http://gawati.org/xq/db/config" at "config.xqm";
@@ -22,6 +23,25 @@ declare function data:doc($this-iri as xs:string) {
 };
 
 
+(:~
+ : Returns the Page IDs of a given document containing the search term
+ : @param $this-iri the expression-this iri of the document
+ : @params $term search term to look for in the document
+ : @returns Page IDs containing the search term
+ :)
+declare function data:doc-fulltext-search($this-iri as xs:string, $term as xs:string) {
+    let $coll := common:doc-fulltext-collection()
+    let $lucene_query :=
+    <query>
+        <phrase slop="3">{$term}</phrase>
+    </query>
+    let $lucene_pageIDs := $coll//gft:pages[@connectorID eq $this-iri]/gft:page[ft:query(., $lucene_query)]
+    let $ngram_pageIDs := $coll//gft:pages[@connectorID eq $this-iri]/gft:page[ngram:contains(., $term)]
+    
+    let $pageIDs := (data($lucene_pageIDs/@id), data($ngram_pageIDs/@id))
+
+    return fn:distinct-values($pageIDs)
+};
 
 (:~
  : Returns the 'n' most recent documents in the System as per updated date
@@ -299,10 +319,7 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
     let $docs := $coll//an:akomaNtoso/parent::node()
     let $docs-in-order := 
         for $doc in $docs
-            order by $doc//an:proprietary/gw:gawati/gw:dateTime[
-                @refersTo = '#dtUpdated'
-                ]/@datetime 
-            descending
+            order by sort:index("SIRecent", $doc)
         return $doc
     let $total-docs := count($docs-in-order)
     return
