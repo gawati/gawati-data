@@ -44,6 +44,32 @@ declare function data:doc-fulltext-search($this-iri as xs:string, $term as xs:st
 };
 
 (:~
+ : Returns the akn documents containing the search term
+ : @params $term search term to look for in the document
+ : @returns akn docs containing the search term
+ :)
+declare function data:coll-fulltext-search($term as xs:string) {
+    let $coll := common:doc-fulltext-collection()
+    let $lucene_query :=
+    <query>
+        <phrase slop="3">{$term}</phrase>
+    </query>
+    let $search-result-docs :=
+        for $doc in $coll//gft:pages
+            let $connectorID := data($doc/@connectorID)
+            let $lucene_pageIDs := $doc/gft:page[ft:query(., $lucene_query)]
+            let $ngram_pageIDs := $doc/gft:page[ngram:contains(., $term)]
+            let $pageIDs := (data($lucene_pageIDs/@id), data($ngram_pageIDs/@id))
+            let $distinct := fn:distinct-values($pageIDs)
+            return
+                if (empty($distinct)) then
+                    ()
+                else
+                    data:doc($connectorID)
+     return subsequence($search-result-docs, 1, 5)
+};
+
+(:~
  : Returns the 'n' most recent documents in the System as per updated date
  : @param $count integer value indicating max number of documents to return
  : @returns gwd envelop with upto 'n' AKN documents
