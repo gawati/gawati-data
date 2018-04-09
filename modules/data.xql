@@ -350,6 +350,31 @@ declare function local:recent-docs($func, $count as xs:integer, $from as xs:inte
 
 };
 
+(:
+ : Returns a grouped summary output of a document query.
+ : DOES NOT return documents.
+ : Returns an XML summary of year, and number of documents in that year
+ :
+ :)
+declare function data:search-filter-timeline(
+    $qry as xs:string
+    ) {
+    let $sc := config:storage-config("legaldocs")
+    let $all-docs := collection($sc("collection"))//an:akomaNtoso
+    let $docs := util:eval( "$all-docs" || $qry || "/parent::node()" )
+    let $total-docs := count($docs)
+    return
+     <timeline>
+        <years timestamp="{current-dateTime()}" totla="{$total-docs}">{
+        for $doc in $docs
+            let $year := year-from-date(xs:date(andoc:expression-FRBRdate-date($doc)))
+            group by $year
+            order by $year
+        return <year year="{$year}" count="{count($doc)}" />    
+       }</years>
+     </timeline>
+};
+
 declare function local:search-filter-docs(
     $func as function(item()) as item()*, 
     $count as xs:integer, 
