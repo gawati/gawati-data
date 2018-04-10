@@ -177,6 +177,19 @@ function services-json:filter-cache(
 };
 
 
+
+declare
+    %rest:GET
+    %rest:path("/gw/filter/timeline/json")
+    %rest:query-param("q", "{$q}", "")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")  
+function services-json:filter-timeline($q as xs:string*) {
+    services:filter-timeline($q)
+};
+
+
 declare
     %rest:GET
     %rest:path("/gw/search/filter/json")

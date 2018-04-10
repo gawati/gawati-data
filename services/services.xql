@@ -149,6 +149,22 @@ function services:search-filter($count as xs:string*, $from as xs:string*, $q as
     </gwd:package>
 };
 
+
+(:
+:
+: Returns timeline related data as XML. Year grouped by count
+:
+:)
+declare
+    %rest:GET
+    %rest:path("/gw/filter/timeline")
+    %rest:query-param("q", "{$q}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:filter-timeline($q as xs:string*) {
+    data:search-filter-timeline($q)
+};
+
+
 declare
     %rest:GET
     %rest:path("/gw/search/countries/summary")
