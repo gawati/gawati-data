@@ -391,7 +391,7 @@ declare function data:search-filter-timeline(
     let $total-docs := count($docs)
     return
      <timeline>
-        <years timestamp="{current-dateTime()}" totla="{$total-docs}">{
+        <years timestamp="{current-dateTime()}" total="{$total-docs}">{
         for $doc in $docs
             let $year := year-from-date(xs:date(andoc:expression-FRBRdate-date($doc)))
             group by $year
