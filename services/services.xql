@@ -543,6 +543,30 @@ function services:search-doc($iri, $term) {
 };
 
 (:~
+ : Expanded Search for a given category
+ : @params $term 
+ : @params $category
+ : @params $count 
+ : @params $from 
+ : @returns the search results for the category
+ :)
+declare
+    %rest:GET
+    %rest:path("/gw/search-category")
+    %rest:query-param("term", "{$term}", "Legal")
+    %rest:query-param("category", "{$category}", "keyword")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/xml", "text/xml")
+function services:search-category($term as xs:string, $category as xs:string, $count as xs:string, $from as xs:string) {
+    let $result-docs := search:search-category($term, $category, xs:integer($count), xs:integer($from))
+    return
+    <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
+        {$result-docs}
+    </gwd:package>
+};
+
+(:~
  : This is provided just to check if the RestXQ services are functioning
  : @returns XHTML document index.xml from the database
  :)

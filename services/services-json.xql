@@ -215,3 +215,18 @@ declare
 function services-json:search-doc($iri, $term) {
     services:search-doc($iri, $term)
 };
+
+
+declare
+    %rest:GET
+    %rest:path("/gw/search-category/json")
+    %rest:query-param("term", "{$term}", "Legal")
+    %rest:query-param("category", "{$category}", "keyword")
+    %rest:query-param("count", "{$count}", "10")
+    %rest:query-param("from", "{$from}", "1")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")    
+function services-json:search-category($term as xs:string*, $category as xs:string*, $count as xs:string*, $from as xs:string*) {
+        services:search-category($term, $category, $count, $from)
+};
