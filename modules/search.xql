@@ -36,8 +36,7 @@ declare function search:search-category($word as xs:string, $category as xs:stri
           default return ""
           
     return
-        <gwd:searchGroups>
-            <gwd:searchGroup name="{$category}" label="{$category}" 
+        <gwd:searchGroup name="{$category}" label="{$category}" 
                             records="{$group-results('records')}"
                             pagesize="{$group-results('page-size')}"
                             itemsfrom="{$group-results('items-from')}"
@@ -51,8 +50,7 @@ declare function search:search-category($word as xs:string, $category as xs:stri
                 $w-word
               )
             }
-            </gwd:searchGroup>
-        </gwd:searchGroups>
+        </gwd:searchGroup>
 };
 
 
