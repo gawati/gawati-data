@@ -400,7 +400,10 @@ declare function data:search-filter-timeline(
          {
            for $d in $doc
            let $country := data($d/an:akomaNtoso/an:act/an:meta/an:identification/an:FRBRWork/an:FRBRcountry/@showAs)
-           return  <output year="{$year}" country="{$country}"/>}
+           let $desc := data($d/an:akomaNtoso/an:act/an:meta/an:publication/@showAs)
+           let $num := data($d/an:akomaNtoso/an:act/an:meta/an:publication/@number)
+
+           return  <output year="{$year}" country="{$country}" description="{$desc}" number="{$num}"/>}
         </year>
        }</years>
      </timeline>
