@@ -396,7 +396,12 @@ declare function data:search-filter-timeline(
             let $year := year-from-date(xs:date(andoc:expression-FRBRdate-date($doc)))
             group by $year
             order by $year
-        return <year year="{$year}" count="{count($doc)}" />    
+        return <year year="{$year}" count="{count($doc)}" >
+         {
+           for $d in $doc
+           let $country := data($d/an:akomaNtoso/an:act/an:meta/an:identification/an:FRBRWork/an:FRBRcountry/@showAs)
+           return  <output year="{$year}" country="{$country}"/>}
+        </year>
        }</years>
      </timeline>
 };
