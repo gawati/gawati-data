@@ -412,6 +412,14 @@ declare function data:search-filter-timeline(
             order by $lang
             return <language lang="{$lang}" count="{count($doc)}" />
        }</languages>
+       <keywords timestamp="{current-dateTime()}" total="{$total-docs}">{
+       for $doc in $docs
+          for $i in (1 to count(andoc:keywords($doc)))
+            let $kw := data(andoc:keywords($doc)[$i]/@value)
+            group by $kw
+            order by $kw
+            return <key key="{$kw}" count="{count($doc)}" />
+       }</keywords>
      </timeline>
 };
 
