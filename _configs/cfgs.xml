@@ -1,12 +1,12 @@
 <config xmlns="http://gawati.org/db/config">
     <storageConfigs>
-        <storage name="legaldocs" collection="../gw-data/akn">
-            <read id="gwdata"/>
-            <write id="gwdata"/>
+        <storage name="legaldocs" collection="../../docs/gawati-data/akn">
+            <read id="gawatidata"/>
+            <write id="gawatidata"/>
         </storage>
-        <storage name="legaldocsText" collection="../gw-data/akn_ft">
-            <read id="gwdata"/>
-            <write id="gwdata"/>
+        <storage name="legaldocsText" collection="../../docs/gawati-data/akn_ft">
+            <read id="gawatidata"/>
+            <write id="gawatidata"/>
         </storage>
     </storageConfigs>
 </config>
