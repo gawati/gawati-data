@@ -400,18 +400,18 @@ declare function data:search-filter-timeline(
         </years>
         <countries timestamp="{current-dateTime()}" total="{$total-docs}">{
         for $doc in $docs
-            let $country := data(andoc:FRBRcountry($doc)/@showAs)
+            let $country := data(andoc:FRBRcountry($doc)/@value)
             group by $country
             order by $country
             return <country name="{$country}" count="{count($doc)}" />
        }</countries> 
-       <languages timestamp="{current-dateTime()}" total="{$total-docs}">{
+       <langs timestamp="{current-dateTime()}" total="{$total-docs}">{
        for $doc in $docs
             let $lang := data(andoc:FRBRlanguage($doc)/@language)
             group by $lang
             order by $lang
             return <language lang="{$lang}" count="{count($doc)}" />
-       }</languages>
+       }</langs>
        <keywords timestamp="{current-dateTime()}" total="{$total-docs}">{
        for $doc in $docs
           for $i in (1 to count(andoc:keywords($doc)))
