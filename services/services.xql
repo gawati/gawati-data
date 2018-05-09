@@ -566,6 +566,40 @@ function services:search-category($term as xs:string, $category as xs:string, $c
     </gwd:package>
 };
 
+
+
+(:~
+:
+: Checks if a document exists
+:
+:)
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gw/doc/exists")
+    %rest:consumes("application/json")
+    %rest:produces("application/xml", "text/xml")
+function services:exists-xml($json) {
+   let $data := parse-json(util:base64-decode($json))
+   return
+    try {
+        let $iri := $data?iri
+        let $doc-exists := count(data:doc($iri)) > 0
+        return 
+            if ($doc-exists eq true()) then 
+              <return>
+                <success code="doc_found" message="document found" />
+              </return>
+            else
+              <return>
+                <error code="doc_not_found" message="document not found" />
+              </return>
+    } catch * {
+        <return>
+            <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+        </return>
+    }
+};
+
 (:~
  : This is provided just to check if the RestXQ services are functioning
  : @returns XHTML document index.xml from the database
