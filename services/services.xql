@@ -558,7 +558,7 @@ declare
     %rest:query-param("count", "{$count}", "10")
     %rest:query-param("from", "{$from}", "1")
     %rest:produces("application/xml", "text/xml")
-function services:search-category($term as xs:string, $category as xs:string, $count as xs:string, $from as xs:string) {
+function services:search-category($term as xs:string*, $category as xs:string*, $count as xs:string*, $from as xs:string*) {
     let $result-docs := search:search-category($term, $category, xs:integer($count), xs:integer($from))
     return
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
