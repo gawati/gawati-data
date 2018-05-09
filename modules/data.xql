@@ -420,6 +420,13 @@ declare function data:search-filter-timeline(
             order by $kw
             return <key key="{$kw}" count="{count($doc)}" />
        }</keywords>
+       <docType timestamp="{current-dateTime()}" total="{$total-docs}">{
+       for $doc in $docs
+            let $doctype := data(andoc:document-doctype-generic($doc)/@name)
+            group by $doctype
+            order by $doctype
+            return <type type="{$doctype}" count="{count($doc)}" />
+       }</docType>
      </timeline>
 };
 
