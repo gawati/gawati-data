@@ -23,6 +23,7 @@ import module namespace data="http://gawati.org/xq/db/data" at "data.xql";
 (:~
  : Expanded Search for Category.
  :)
+ 
 declare function search:search-category($word as xs:string, $category as xs:string, $count as xs:integer, $from as xs:integer) {
     let $coll := common:doc-collection()
     let $w-word := concat($word, "*")

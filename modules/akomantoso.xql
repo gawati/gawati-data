@@ -294,7 +294,7 @@ declare function andoc:docType($doc as document-node(), $exp-filter as xs:string
 declare function andoc:find-document(
     $coll as document-node()*, 
     $this-iri as xs:string
-    ) as document-node() {
+    ) {
     let $doc := 
             $coll/an:akomaNtoso[
                 ./an:*/an:meta/

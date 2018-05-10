@@ -558,12 +558,46 @@ declare
     %rest:query-param("count", "{$count}", "10")
     %rest:query-param("from", "{$from}", "1")
     %rest:produces("application/xml", "text/xml")
-function services:search-category($term as xs:string, $category as xs:string, $count as xs:string, $from as xs:string) {
+function services:search-category($term as xs:string*, $category as xs:string*, $count as xs:string*, $from as xs:string*) {
     let $result-docs := search:search-category($term, $category, xs:integer($count), xs:integer($from))
     return
     <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data">
         {$result-docs}
     </gwd:package>
+};
+
+
+
+(:~
+:
+: Checks if a document exists
+:
+:)
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gw/doc/exists")
+    %rest:consumes("application/json")
+    %rest:produces("application/xml", "text/xml")
+function services:exists-xml($json) {
+   let $data := parse-json(util:base64-decode($json))
+   return
+    try {
+        let $iri := $data?iri
+        let $doc-exists := count(data:doc($iri)) > 0
+        return 
+            if ($doc-exists eq true()) then 
+              <return>
+                <success code="doc_found" message="document found" />
+              </return>
+            else
+              <return>
+                <error code="doc_not_found" message="document not found" />
+              </return>
+    } catch * {
+        <return>
+            <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+        </return>
+    }
 };
 
 (:~
