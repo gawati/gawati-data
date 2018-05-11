@@ -60,7 +60,29 @@ declare function caching:filter-cache() {
                   return <keyword value="{$kwv}" count="{count($kw)}" >{$kw-shows[1]}</keyword>
                 }                
                             
-            </filter>            
+            </filter>  
+             <filter name="types" label="Document Types"> {
+              
+            for $doc in $docs
+              group by $type := data($doc//
+              (
+                an:act|
+                an:amendment|
+                an:amendmentList|
+                an:bill|
+                an:debate|
+                an:debateReport|
+                an:doc|
+                an:documentCollection|
+                an:judgment|
+                an:officialGazette|
+                an:portion|
+                an:statement
+                )
+                /@name)
+              order by $type ascending
+              return <type type="{$type}" count="{count($doc)}" />             
+            }</filter>
         </filters>
 
 };
