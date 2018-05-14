@@ -416,7 +416,7 @@ declare function data:search-filter-timeline(
        <keywords timestamp="{$ts}" total="{$total-docs}">{
        for $doc in $docs
           for $i in (1 to count(andoc:keywords($doc)))
-            let $kw := data(andoc:keywords($doc)[$i]/@value)
+            let $kw := replace(data(andoc:keywords($doc)[$i]/@value), substring(data(andoc:keywords($doc)[$i]/@value),1,1), upper-case(substring(data(andoc:keywords($doc)[$i]/@value),1,1)))
             group by $kw
             order by $kw
             return <key key="{$kw}" count="{count($doc)}" />
