@@ -33,6 +33,12 @@ declare function local:sort-callback($node as node()) {
                 ]/@datetime 
 };
 
-let $si := local:build-sort-index()
+try {
+    let $si := local:build-sort-index()
+    return
+        <success>Build Sort index</success>
+} catch * {
+    <error>Caught error {$err:code}: {$err:description}</error>
+}
 
-return $si
+
