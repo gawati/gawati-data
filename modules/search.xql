@@ -20,6 +20,39 @@ import module namespace data="http://gawati.org/xq/db/data" at "data.xql";
  :      - modified index configs after monex index profiling
  :)
 
+(:~
+ : Expanded Search for Category.
+ :)
+ 
+declare function search:search-category($word as xs:string, $category as xs:string, $count as xs:integer, $from as xs:integer) {
+    let $coll := common:doc-collection()
+    let $w-word := concat($word, "*")
+    let $group-results := 
+        switch ($category) 
+          case "keyword" return search:search-group-keyword($coll, $word, $w-word, $from, $count)
+          case "title" return search:search-group-title($coll, $word, $w-word, $from, $count)
+          case "country" return search:search-group-country($coll, $word, $w-word, $from, $count)
+          case "theme" return search:search-group-theme($coll, $word, $w-word, $from, $count)
+          case "number" return search:search-group-number($coll, $word, $w-word, $from, $count)
+          default return ""
+          
+    return
+        <gwd:searchGroup name="{$category}" label="{$category}" 
+                            records="{$group-results('records')}"
+                            pagesize="{$group-results('page-size')}"
+                            itemsfrom="{$group-results('items-from')}"
+                            totalpages="{$group-results('total-pages')}" 
+                            currentpage="{$group-results('current-page')}">
+            { 
+              search:process-group(
+                $group-results('data'),
+                $category,
+                $word,
+                $w-word
+              )
+            }
+        </gwd:searchGroup>
+};
 
 
 (:~
@@ -36,8 +69,10 @@ declare function search:search($word as xs:string) {
                 search:search-group-keyword(
                     $coll, 
                     $word, 
-                    $w-word
-                ),
+                    $w-word,
+                    1,
+                    5
+                )('data'),
                 "keyword",
                 $word,
                 $w-word
@@ -50,8 +85,10 @@ declare function search:search($word as xs:string) {
                 search:search-group-title(
                     $coll, 
                     $word, 
-                    $w-word
-                ),
+                    $w-word,
+                    1,
+                    5
+                )('data'),
                 "title",
                 $word,
                 $w-word
@@ -64,8 +101,10 @@ declare function search:search($word as xs:string) {
                 search:search-group-country(
                     $coll, 
                     $word, 
-                    $w-word
-                ),
+                    $w-word,
+                    1,
+                    5
+                )('data'),
                 "country",
                 $word,
                 $w-word
@@ -78,8 +117,10 @@ declare function search:search($word as xs:string) {
                 search:search-group-theme(
                     $coll, 
                     $word, 
-                    $w-word
-                ),
+                    $w-word,
+                    1,
+                    5
+                )('data'),
                 "theme",
                 $word,
                 $w-word
@@ -103,8 +144,10 @@ declare function search:search($word as xs:string) {
                 search:search-group-number(
                     $coll, 
                     $word, 
-                    $w-word
-                ),
+                    $w-word,
+                    1,
+                    5
+                )('data'),
                 "number",
                 $word,
                 $w-word
@@ -128,63 +171,73 @@ declare function search:process-result($doc as item()*, $group-name as xs:string
     </gwd:searchResult>
 };
 
-declare function search:search-group-keyword($coll as item()*, $search as xs:string, $w-search as xs:string ) {
-    subsequence(
-        $coll//an:akomaNtoso[
-            .//an:classification/an:keyword[
-                contains(@showAs, $w-search)
-                ]
-          ]/parent::node()
-          union
-        $coll//an:akomaNtoso[
-            .//an:classification/an:keyword[
-                contains(@value, $search)
-                ]
-          ]/parent::node(),
-        1,
-        5
-    )
+declare function search:get-results-map($total-matches as xs:integer, $count as xs:integer, $from as xs:integer, $all-matches as item()*) {
+    if ($total-matches gt 0) then 
+        map {
+            "records" := $total-matches,
+            "page-size" := $count,
+            "items-from" := $from,                    
+            "total-pages" := ceiling($total-matches div $count) ,
+            "current-page" := xs:integer($from div $count) + 1,
+            "data" := subsequence($all-matches, $from, $count)
+        }
+    else
+        map {
+            "records" := 0,
+            "page-size" := 0,
+            "total-pages" := 0,
+            "data" := ()
+        }
+};
+
+declare function search:search-group-keyword($coll as item()*, $search as xs:string, $w-search as xs:string, $from as xs:integer, $count as xs:integer ) {
+    let $all-matches := $coll//an:akomaNtoso[
+                            .//an:classification/an:keyword[
+                                contains(@showAs, $w-search)
+                                ]
+                          ]/parent::node()
+                          union
+                        $coll//an:akomaNtoso[
+                            .//an:classification/an:keyword[
+                                contains(@value, $search)
+                                ]
+                          ]/parent::node()
+    
+    let $total-matches := count($all-matches)
+    return search:get-results-map($total-matches, $count, $from, $all-matches)
 };
 
 
-declare function search:search-group-title($coll as item()*, $search as xs:string, $w-search as xs:string ) {
-    subsequence(
-        $coll//an:akomaNtoso[
-            .//an:publication[contains(@showAs, $w-search)]
-          ]/parent::node(),
-          1,
-          5
-    )
+declare function search:search-group-title($coll as item()*, $search as xs:string, $w-search as xs:string, $from as xs:integer, $count as xs:integer ) {
+    let $all-matches := $coll//an:akomaNtoso[
+                            .//an:publication[contains(@showAs, $w-search)]
+                          ]/parent::node()
+    let $total-matches := count($all-matches)
+    return search:get-results-map($total-matches, $count, $from, $all-matches)
 };
 
 
-declare function search:search-group-country($coll as item()*, $search as xs:string, $w-search as xs:string) {
-    subsequence(
-        $coll//an:akomaNtoso[
-           .//an:FRBRcountry[contains(@showAs, $search)]
-          ]/parent::node(),
-        1,
-        5
-    )
+declare function search:search-group-country($coll as item()*, $search as xs:string, $w-search as xs:string, $from as xs:integer, $count as xs:integer) {
+    let $all-matches := $coll//an:akomaNtoso[
+                           .//an:FRBRcountry[contains(@showAs, $search)]
+                          ]/parent::node()
+    let $total-matches := count($all-matches)
+    return search:get-results-map($total-matches, $count, $from, $all-matches)
 };
 
-declare function search:search-group-theme($coll as item()*, $search as xs:string, $w-search as xs:string) {
-    subsequence(
-        $coll//an:akomaNtoso[
-           .//an:TLCConcept[contains(@showAs, $w-search)]   
-          ]/parent::node(),
-        1,
-        5
-     )
+declare function search:search-group-theme($coll as item()*, $search as xs:string, $w-search as xs:string, $from as xs:integer, $count as xs:integer) {
+    let $all-matches := $coll//an:akomaNtoso[
+                           .//an:TLCConcept[contains(@showAs, $w-search)]   
+                          ]/parent::node()
+    let $total-matches := count($all-matches)
+    return search:get-results-map($total-matches, $count, $from, $all-matches)
 };
 
 
-declare function search:search-group-number($coll as item()*, $search as xs:string, $w-search as xs:string ) {
-    subsequence(
-        $coll//an:akomaNtoso[
-           .//an:FRBRnumber[contains(@showAs, $search)]
-          ]/parent::node(),
-        1,
-        5
-    )
+declare function search:search-group-number($coll as item()*, $search as xs:string, $w-search as xs:string, $from as xs:integer, $count as xs:integer ) {
+    let $all-matches := $coll//an:akomaNtoso[
+                           .//an:FRBRnumber[contains(@showAs, $search)]
+                          ]/parent::node()
+    let $total-matches := count($all-matches)
+    return search:get-results-map($total-matches, $count, $from, $all-matches)
 };

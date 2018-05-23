@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <countries xmlns="http://gawati.org/portal/countries">
   <country name="Afghanistan" alpha-2="AF" alpha-3="AFG" country-code="004" iso_3166-2="ISO 3166-2:AF" region="Asia" sub-region="Southern Asia" region-code="142" sub-region-code="034"/>
   <country name="Åland Islands" alpha-2="AX" alpha-3="ALA" country-code="248" iso_3166-2="ISO 3166-2:AX" sub-region-code="154" region-code="150" sub-region="Northern Europe" region="Europe"/>

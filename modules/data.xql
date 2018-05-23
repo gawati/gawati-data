@@ -388,16 +388,46 @@ declare function data:search-filter-timeline(
     let $sc := config:storage-config("legaldocs")
     let $all-docs := collection($sc("collection"))//an:akomaNtoso
     let $docs := util:eval( "$all-docs" || $qry || "/parent::node()" )
+    let $ts := current-dateTime()
     let $total-docs := count($docs)
     return
      <timeline>
-        <years timestamp="{current-dateTime()}" total="{$total-docs}">{
+        <years timestamp="{$ts}" total="{$total-docs}">{
         for $doc in $docs
             let $year := year-from-date(xs:date(andoc:expression-FRBRdate-date($doc)))
             group by $year
             order by $year
-        return <year year="{$year}" count="{count($doc)}" />    
-       }</years>
+        return <year year="{$year}" count="{count($doc)}" />}
+        </years>
+        <countries timestamp="{$ts}" total="{$total-docs}">{
+        for $doc in $docs
+            let $country := data(andoc:FRBRcountry($doc)/@value)
+            group by $country
+            order by $country
+            return <country name="{$country}" count="{count($doc)}" />
+       }</countries> 
+       <languages timestamp="{$ts}" total="{$total-docs}">{
+       for $doc in $docs
+            let $lang := data(andoc:FRBRlanguage($doc)/@language)
+            group by $lang
+            order by $lang
+            return <language lang="{$lang}" count="{count($doc)}" />
+       }</languages>
+       <keywords timestamp="{$ts}" total="{$total-docs}">{
+       for $doc in $docs
+          for $i in (1 to count(andoc:keywords($doc)))
+            let $kw := replace(data(andoc:keywords($doc)[$i]/@value), substring(data(andoc:keywords($doc)[$i]/@value),1,1), upper-case(substring(data(andoc:keywords($doc)[$i]/@value),1,1)))
+            group by $kw
+            order by $kw
+            return <key key="{$kw}" count="{count($doc)}" />
+       }</keywords>
+       <docType timestamp="{current-dateTime()}" total="{$total-docs}">{
+       for $doc in $docs
+            let $doctype := data(andoc:document-doctype-generic($doc)/@name)
+            group by $doctype
+            order by $doctype
+            return <type type="{$doctype}" count="{count($doc)}" />
+       }</docType>
      </timeline>
 };
 
