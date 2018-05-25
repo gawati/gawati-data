@@ -240,3 +240,13 @@ declare
 function services-json:exists-xml($json) {
         services:exists-xml($json)
 };
+
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gw/doc/sync")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")
+function services-json:sync-xml($json) {
+        services:sync-xml($json)
+};
