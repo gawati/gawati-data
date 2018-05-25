@@ -644,7 +644,7 @@ declare function data:save-doc($iri as xs:string, $doc as item()*, $file-xml as 
             already exists :)
             let $newcol := xmldb:create-collection($s-map("db-path"), $db-path)
             (: store the xml document :)
-            let $stored := xmldb:store($s-map("db-path") || $db-path, $file-xml, $doc)
+            let $stored := xmldb:store($s-map("db-path") || $db-path, $file-xml, $doc//an:akomaNtoso)
             let $logout := dbauth:logout()
             return
             if (empty($stored)) then
