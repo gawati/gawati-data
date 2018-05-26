@@ -16,6 +16,8 @@ import module namespace config="http://gawati.org/xq/db/config" at "config.xqm";
 import module namespace andoc="http://exist-db.org/xquery/apps/akomantoso30" at "akomantoso.xql";
 import module namespace common="http://gawati.org/xq/db/common" at "common.xql";
 import module namespace langs="http://gawati.org/xq/portal/langs" at "langs.xql";
+import module namespace utils="http://gawati.org/xq/portal/utils" at "./utils.xql";
+import module namespace dbauth="http://gawati.org/xq/portal/dbauth" at "./dbauth.xql";
 
 declare function data:doc($this-iri as xs:string) {
     let $coll := common:doc-collection()
@@ -631,6 +633,30 @@ declare function local:theme-docs($func, $themes as xs:string*, $count as xs:int
         )    
 };
 
-
-
-
+declare function data:save-doc($iri as xs:string, $doc as item()*, $file-xml as xs:string) {
+    let $s-map := config:storage-config("legaldocs")
+    (: get akn prefixed sub-path :)
+    let $db-path := utils:iri-upto-date-part($iri)
+    let $log-in := dbauth:login()
+    return
+        if ($log-in) then
+            (: attempt to create the collection, it will return without creating if the collection
+            already exists :)
+            let $newcol := xmldb:create-collection($s-map("db-path"), $db-path)
+            (: store the xml document :)
+            let $stored := xmldb:store($s-map("db-path") || $db-path, $file-xml, $doc//an:akomaNtoso)
+            let $logout := dbauth:logout()
+            return
+            if (empty($stored)) then
+               <return>
+                    <error code="save_file_failed" message="error while saving file" />
+               </return>
+            else
+               <return>
+                    <success code="save_file" message="{$stored}" />
+               </return>     
+        else
+            <return>
+                <error code="save_login_failed" message="login to save collection failed" />
+            </return>
+};

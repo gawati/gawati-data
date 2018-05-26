@@ -69,6 +69,7 @@ declare function config:storage-config($name as xs:string) {
     let $sc := config:doc()//cfgx:storageConfigs/cfgx:storage[@name = $name]
     return
         map{
+            "db-path" := concat("xmldb:exist://", $sc/@path),
             "collection" := concat($config:app-root, '/', $sc/@collection),
             "read-id" := data($sc/cfgx:read/@id),
             "read-p" := data($sc/cfgx:read/@p),
