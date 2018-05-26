@@ -600,6 +600,32 @@ function services:exists-xml($json) {
     }
 };
 
+
+(:~
+:
+: Update or Add a document
+:
+:)
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gw/doc/sync")
+    %rest:consumes("application/json")
+    %rest:produces("application/xml", "text/xml")
+function services:sync-xml($json) {
+   let $data := parse-json(util:base64-decode($json))
+   return
+    try {
+        let $doc := util:parse($data?data)
+        let $iri := $data?iri
+        let $file-xml := $data?fileXml
+        return data:save-doc($iri, $doc, $file-xml)
+    } catch * {
+        <return>
+            <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+        </return>
+    }
+};
+
 (:~
  : This is provided just to check if the RestXQ services are functioning
  : @returns XHTML document index.xml from the database
