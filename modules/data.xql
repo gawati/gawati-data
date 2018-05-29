@@ -644,17 +644,29 @@ declare function data:save-doc($iri as xs:string, $doc as item()*, $file-xml as 
             already exists :)
             let $newcol := xmldb:create-collection($s-map("db-path"), $db-path)
             (: store the xml document :)
-            let $stored := xmldb:store($s-map("db-path") || $db-path, $file-xml, $doc//an:akomaNtoso)
-            let $logout := dbauth:logout()
+            let $fullpath := concat($s-map("db-path") || $db-path, $file-xml)            
+            
             return
-            if (empty($stored)) then
-               <return>
-                    <error code="save_file_failed" message="error while saving file" />
-               </return>
-            else
-               <return>
-                    <success code="save_file" message="{$stored}" />
-               </return>     
+            try {
+                let $stored := util:exclusive-lock(doc($fullpath), (
+                    let $stored := xmldb:store($s-map("db-path") || $db-path, $file-xml, $doc//an:akomaNtoso)
+                    return $stored
+                ))
+                let $logout := dbauth:logout()
+                return
+                if (empty($stored)) then
+                   <return>
+                        <error code="save_file_failed" message="error while saving file" />
+                   </return>
+                else
+                   <return>
+                        <success code="save_file" message="{$stored}" />
+                   </return>
+            } catch * {
+                <return>
+                    <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+                </return>
+            }
         else
             <return>
                 <error code="save_login_failed" message="login to save collection failed" />
