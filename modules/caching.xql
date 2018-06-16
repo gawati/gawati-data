@@ -21,6 +21,21 @@ declare function local:doc-collection() {
     return collection($sc("collection"))
 };
 
+declare function caching:get-metadata() {
+    let $sc := config:storage-config("legaldocs")
+    let $docs := local:doc-collection()//an:akomaNtoso
+    return
+    <metadata source="{$sc("db-path")}">
+    {
+    for $kw in $docs//an:classification/an:keyword
+        let $kw-shows := $kw/@showAs
+        group by $kwv := data($kw/@value)
+        order by $kwv ascending
+        return <keyword value="{$kwv}" >{$kw-shows[1]}</keyword>
+     }
+     </metadata>  
+};
+
 declare function caching:filter-cache() {
     let $docs := local:doc-collection()//an:akomaNtoso
     return

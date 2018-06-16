@@ -176,7 +176,17 @@ function services-json:filter-cache(
     )
 };
 
-
+declare
+    %rest:GET
+    %rest:path("/gw/doc/metadata")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")   
+function services-json:metadata(
+    ) {
+    let $data := caching:get-metadata()
+    return $data
+};
 
 declare
     %rest:GET
