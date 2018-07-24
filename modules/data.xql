@@ -296,7 +296,6 @@ declare function data:summary-doc($doc) {
     let $pdfname-tok := tokenize($pdfname, "\.")
     let $lang-code := andoc:FRBRlanguage-language($doc)
     let $lang-name := langs:lang3-name($lang-code)
-    let $thref := "th_" || string-join($pdfname-tok[1 to count($pdfname-tok) - 1], "") || ".png"
     return
     <gwd:exprAbstract expr-iri="{andoc:expression-FRBRthis-value($doc)}"
         work-iri="{andoc:work-FRBRthis-value($doc)}" xmlns:gwd="http://gawati.org/ns/1.0/data">
@@ -308,7 +307,6 @@ declare function data:summary-doc($doc) {
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
         <gwd:componentLink src="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
-        <gwd:thumbnail src="{$thref}" />
      </gwd:exprAbstract>
 };
 
