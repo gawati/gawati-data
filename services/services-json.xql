@@ -257,6 +257,6 @@ declare
     %rest:produces("application/json")
     %output:media-type("application/json")  
     %output:method("json")
-function services-json:sync-xml($json) {
-        services:sync-xml($json)
+function services-json:sync-pkg($json) {
+        services:sync-pkg($json)
 };

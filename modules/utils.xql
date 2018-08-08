@@ -1,5 +1,6 @@
 xquery version "3.1";
 module namespace utils="http://gawati.org/xq/portal/utils";
+import module namespace functx="http://www.functx.com" at "./functx.xql";
 
 declare function utils:is-date($date) {
     try{
@@ -26,4 +27,13 @@ declare function utils:iri-upto-date-part($iri as xs:string) {
             ],
             "/"
         )
+};
+
+declare function utils:get-filename-from-iri($iri as xs:string, $ext as xs:string) {
+    let $arr := tokenize($iri, "/")[position() ne 1]
+    let $filename := string-join($arr, "_")
+    let $from :=	('@', '!')
+    let $to :=	('', '')
+    let $filename := functx:replace-multi($filename, $from, $to)
+    return concat($filename, ".", $ext)
 };
