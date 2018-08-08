@@ -603,7 +603,7 @@ function services:exists-xml($json) {
 
 (:~
 :
-: Update or Add a document
+: Update or Add a document package
 :
 :)
 declare
@@ -611,14 +611,14 @@ declare
     %rest:path("/gw/doc/sync")
     %rest:consumes("application/json")
     %rest:produces("application/xml", "text/xml")
-function services:sync-xml($json) {
+function services:sync-pkg($json) {
    let $data := parse-json(util:base64-decode($json))
    return
     try {
-        let $doc := util:parse($data?data)
+        let $doc := util:parse($data?doc)
         let $iri := $data?iri
-        let $file-xml := $data?fileXml
-        return data:save-doc($iri, $doc, $file-xml)
+        let $key := $data?key
+        return data:save-pkg($iri, $doc, $key)
     } catch * {
         <return>
             <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
