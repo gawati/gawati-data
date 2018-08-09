@@ -243,7 +243,7 @@ function services-json:search-category($term as xs:string*, $category as xs:stri
 
 declare
     %rest:POST("{$json}")
-    %rest:path("/gw/doc/exists")
+    %rest:path("/gw/doc/exists/json")
     %rest:produces("application/json")
     %output:media-type("application/json")  
     %output:method("json")
@@ -253,7 +253,7 @@ function services-json:exists-xml($json) {
 
 declare
     %rest:POST("{$json}")
-    %rest:path("/gw/doc/sync")
+    %rest:path("/gw/doc/sync/json")
     %rest:produces("application/json")
     %output:media-type("application/json")  
     %output:method("json")
