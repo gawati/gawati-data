@@ -627,6 +627,29 @@ function services:sync-pkg($json) {
 };
 
 (:~
+:
+: Delete a document package
+:
+:)
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gw/doc/delete")
+    %rest:consumes("application/json")
+    %rest:produces("application/xml", "text/xml")
+function services:delete-pkg($json) {
+   let $data := parse-json(util:base64-decode($json))
+   return
+    try {
+        let $iri := $data?iri
+        return data:delete-pkg($iri)
+    } catch * {
+        <return>
+            <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+        </return>
+    }
+};
+
+(:~
  : This is provided just to check if the RestXQ services are functioning
  : @returns XHTML document index.xml from the database
  :)

@@ -643,8 +643,8 @@ declare function data:save-pkg($iri as xs:string, $doc as item()*, $key as item(
             let $newcol := xmldb:create-collection($s-map("db-path"), $db-path)
             let $fname-xml := utils:get-filename-from-iri($iri, "xml")
             let $fname-key := utils:get-filename-from-iri($iri, "public")
-            let $fullpath := concat($s-map("db-path") || $db-path, $fname-xml)
-            let $fullpath-key := concat($s-map("db-path") || $db-path, $fname-key)
+            let $fullpath := concat($s-map("db-path") || $db-path, '/' , $fname-xml)
+            let $fullpath-key := concat($s-map("db-path") || $db-path, '/', $fname-key)
             (: store the xml document :)
             return
             try {
@@ -680,5 +680,54 @@ declare function data:save-pkg($iri as xs:string, $doc as item()*, $key as item(
         else
             <return>
                 <error code="save_login_failed" message="login to save collection failed" />
+            </return>
+};
+
+declare function data:delete-pkg($iri as xs:string) {
+    let $s-map := config:storage-config("legaldocs")
+    (: get akn prefixed sub-path :)
+    let $db-path := utils:iri-upto-date-part($iri)
+    let $log-in := dbauth:login()
+    return
+        if ($log-in) then
+            let $fname-xml := utils:get-filename-from-iri($iri, "xml")
+            let $fullpath := concat($s-map("db-path") || $db-path, '/', $fname-xml)
+            let $doc := doc($fullpath)
+            let $fname-key := utils:get-filename-from-iri($iri, "public")
+            let $fullpath-key := concat($s-map("db-path") || $db-path, '/', $fname-key)
+
+            return
+            try {
+                (: delete the xml document :)
+                let $delete-doc := util:exclusive-lock($doc, (
+                    let $delete-doc := xmldb:remove($s-map("db-path") || $db-path, $fname-xml)
+                    return $delete-doc
+                ))
+                
+                (: delete key only if present :)
+                let $delete-key := 
+                if (utils:file-exists($fullpath-key)) then
+                    xmldb:remove($s-map("db-path") || $db-path, $fname-key)
+                else
+                    true()
+                let $logout := dbauth:logout()
+                return
+                if (empty($delete-doc) and (empty($delete-key) or $delete-key)) then
+                    <return>
+                        <success code="delete_file" message="{$fname-xml}" />
+                   </return>
+                else
+                    <return>
+                        <error code="delete_file_failed" message="error while deleting file" />
+                   </return>
+                   
+            } catch * {
+                <return>
+                    <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+                </return>
+            }
+        else
+            <return>
+                <error code="delete_login_failed" message="login to delete collection failed" />
             </return>
 };
