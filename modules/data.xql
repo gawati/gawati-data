@@ -652,10 +652,16 @@ declare function data:save-pkg($iri as xs:string, $doc as item()*, $key as item(
                     let $stored-doc := xmldb:store($s-map("db-path") || $db-path, $fname-xml, $doc//an:akomaNtoso)
                     return $stored-doc
                 ))
-                let $stored-key := util:exclusive-lock(doc($fullpath-key), (
-                    let $stored-key := xmldb:store($s-map("db-path") || $db-path, $fname-key, $key, 'text/plain')
-                    return $stored-key
-                ))
+                
+                (: Store key only if not empty :)
+                let $stored-key := 
+                if (string-length($key) gt 0) then
+                    util:exclusive-lock(doc($fullpath-key), (
+                        let $stored-key := xmldb:store($s-map("db-path") || $db-path, $fname-key, $key, 'text/plain')
+                        return $stored-key
+                    ))
+                else
+                    true()
                 let $logout := dbauth:logout()
                 return
                 if (empty($stored-doc) or empty($stored-key)) then
