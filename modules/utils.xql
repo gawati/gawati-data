@@ -37,3 +37,10 @@ declare function utils:get-filename-from-iri($iri as xs:string, $ext as xs:strin
     let $filename := functx:replace-multi($filename, $from, $to)
     return concat($filename, ".", $ext)
 };
+
+declare function utils:file-exists($path as xs:string) {
+    if (count(util:document-name($path)) > 0) then
+        true()
+    else
+        false()
+};

@@ -253,10 +253,20 @@ function services-json:exists-xml($json) {
 
 declare
     %rest:POST("{$json}")
-    %rest:path("/gw/doc/sync/json")
+    %rest:path("/gwprivate/doc/sync/json")
     %rest:produces("application/json")
     %output:media-type("application/json")  
     %output:method("json")
 function services-json:sync-pkg($json) {
         services:sync-pkg($json)
+};
+
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gwprivate/doc/delete/json")
+    %rest:produces("application/json")
+    %output:media-type("application/json")  
+    %output:method("json")
+function services-json:delete-pkg($json) {
+        services:delete-pkg($json)
 };

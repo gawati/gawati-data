@@ -608,7 +608,7 @@ function services:exists-xml($json) {
 :)
 declare
     %rest:POST("{$json}")
-    %rest:path("/gw/doc/sync")
+    %rest:path("/gwprivate/doc/sync")
     %rest:consumes("application/json")
     %rest:produces("application/xml", "text/xml")
 function services:sync-pkg($json) {
@@ -619,6 +619,29 @@ function services:sync-pkg($json) {
         let $iri := $data?iri
         let $key := $data?key
         return data:save-pkg($iri, $doc, $key)
+    } catch * {
+        <return>
+            <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+        </return>
+    }
+};
+
+(:~
+:
+: Delete a document package
+:
+:)
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gwprivate/doc/delete")
+    %rest:consumes("application/json")
+    %rest:produces("application/xml", "text/xml")
+function services:delete-pkg($json) {
+   let $data := parse-json(util:base64-decode($json))
+   return
+    try {
+        let $iri := $data?iri
+        return data:delete-pkg($iri)
     } catch * {
         <return>
             <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
