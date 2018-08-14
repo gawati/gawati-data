@@ -608,7 +608,7 @@ function services:exists-xml($json) {
 :)
 declare
     %rest:POST("{$json}")
-    %rest:path("/gw/doc/sync")
+    %rest:path("/gwprivate/doc/sync")
     %rest:consumes("application/json")
     %rest:produces("application/xml", "text/xml")
 function services:sync-pkg($json) {
@@ -633,7 +633,7 @@ function services:sync-pkg($json) {
 :)
 declare
     %rest:POST("{$json}")
-    %rest:path("/gw/doc/delete")
+    %rest:path("/gwprivate/doc/delete")
     %rest:consumes("application/json")
     %rest:produces("application/xml", "text/xml")
 function services:delete-pkg($json) {
