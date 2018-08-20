@@ -24,12 +24,14 @@ declare function dbauth:login() {
     return dbauth:login($s-map)
 };
 
+
+
 (:
  : Logs in to the writable collection as specified in the passed storage map
  :
  :)
 declare function dbauth:login($s-map) {
-    let $log-in := xmldb:login($s-map("db-path"), "admin", "gawati")
+    let $log-in := xmldb:login($s-map("db-path"), $s-map("write-id"), $s-map("write-p"))
     return $log-in
 };
 

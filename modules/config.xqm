@@ -39,6 +39,9 @@ declare variable $config:langs-doc := doc(concat($config:config-root, "/langs.xm
 (: Langs Config :)
 declare variable $config:countries-doc := doc(concat($config:config-root, "/countries.xml"));
 
+declare variable $config:auth-doc := doc(concat($config:app-root, "/_auth/_pw.xml"));
+
+
 (: Folder with XSLT scripts :)
 declare variable $config:app-xslt := $config:app-root || '/xslt';
 
@@ -67,14 +70,15 @@ declare function config:xslt($filename as xs:string) {
 :) 
 declare function config:storage-config($name as xs:string) {
     let $sc := config:doc()//cfgx:storageConfigs/cfgx:storage[@name = $name]
+    let $pass := data($config:auth-doc//users/user[@name = data($sc/cfgx:write/@id)]/@pw)
     return
         map{
             "db-path" := concat("xmldb:exist://", $sc/@path),
             "collection" := concat($config:app-root, '/', $sc/@collection),
             "read-id" := data($sc/cfgx:read/@id),
-            "read-p" := data($sc/cfgx:read/@p),
+            "read-p" := $pass,
             "write-id" := data($sc/cfgx:write/@id),
-            "write-p" := data($sc/cfgx:write/@p)
+            "write-p" := $pass
         }
 };
 
