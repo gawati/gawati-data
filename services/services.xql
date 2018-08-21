@@ -650,6 +650,59 @@ function services:delete-pkg($json) {
 };
 
 (:~
+ : This Service returns the list of IRIs of published documents 
+ : that can be distributed/propagated.
+ : @params none 
+ : @returns list of IRIs
+ :) 
+declare
+    %rest:GET
+    %rest:path("/gwprivate/distribution/list")
+    %rest:produces("application/xml", "text/xml")
+function services:dist-list() {
+    let $iris := data:dist-list()
+    return 
+        <gwd:package  timestamp="{current-dateTime()}" xmlns:gwd="http://gawati.org/ns/1.0/data"> 
+        {
+          for $iri in $iris
+            return <gw:iri>{$iri}</gw:iri>
+        }
+        </gwd:package>
+};
+
+(:~
+:
+: Returns a zip of the metadata XML and Public key (if present)
+:
+:)
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gwprivate/pkg/load")
+    %rest:consumes("application/json")
+    %rest:produces("application/zip")
+    %output:media-type("application/zip")
+function services:load-pkg($json) {
+   let $data := parse-json(util:base64-decode($json))
+   return
+    try {
+        let $iri := $data?iri
+        let $zip := data:get-pkg($iri)
+        let $exists := count(data:doc($iri)) > 0
+        return 
+            if (not($exists) or count($zip) eq 0) then 
+              <return>
+                <error code="pkg_not_found" message="package not found" />
+              </return>
+            else
+                $zip
+    } catch * {
+        <return>
+            <error code="sys_err_{$err:code}" message="Caught error {$err:code}: {$err:description}" />
+        </return>
+    }
+};
+
+(:~
  : This is provided just to check if the RestXQ services are functioning
  : @returns XHTML document index.xml from the database
  :)
