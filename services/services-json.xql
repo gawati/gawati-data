@@ -270,3 +270,23 @@ declare
 function services-json:delete-pkg($json) {
         services:delete-pkg($json)
 };
+
+declare
+    %rest:GET
+    %rest:path("/gwprivate/distribution/list/json")
+    %rest:produces("application/json")
+    %output:media-type("application/json")
+    %output:method("json")   
+function services-json:dist-list() {
+    services:dist-list()
+};
+
+declare
+    %rest:POST("{$json}")
+    %rest:path("/gwprivate/pkg/load/json")
+    %rest:consumes("application/json")
+    %rest:produces("application/zip")
+    %output:media-type("application/zip")
+function services:load-pkg($json) {
+    services:load-pkg($json)  
+};

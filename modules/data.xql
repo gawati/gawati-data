@@ -731,3 +731,56 @@ declare function data:delete-pkg($iri as xs:string) {
                 <error code="delete_login_failed" message="login to delete collection failed" />
             </return>
 };
+
+(:
+ : Returns a zip of the metadata xml and public key (if present), for the given iri. 
+ :)
+declare function data:get-pkg($iri as xs:string) {
+    let $s-map := config:storage-config("legaldocs")
+    (: get akn prefixed sub-path :)
+    let $db-path := utils:iri-upto-date-part($iri)
+    let $log-in := dbauth:login()
+    return
+        if ($log-in) then
+            let $fname-xml := utils:get-filename-from-iri($iri, "xml")
+            let $fullpath := concat($s-map("db-path") || $db-path, '/', $fname-xml)
+            let $fname-key := utils:get-filename-from-iri($iri, "public")
+            let $fullpath-key := concat($s-map("db-path") || $db-path, '/', $fname-key)
+
+            let $zip as item() := 
+            (
+                let $entries as item()+ := 
+                    if (utils:file-exists($fullpath-key)) then
+                        (
+                            <entry name="{$fname-key}" type="binary" method="store">{util:binary-doc($fullpath-key)}</entry>,
+                            <entry name="{$fname-xml}" type="xml" method="store">{doc($fullpath)}</entry>
+                        )                
+                    else
+                        (<entry name="{$fname-xml}" type="xml" method="store">{doc($fullpath)}</entry>)
+                    return
+                        compression:zip($entries, false())
+            )
+            return $zip
+        else
+            <return>
+                <error code="load_login_failed" message="login to load collection failed" />
+            </return>
+};
+
+(:
+ : This Service returns the list of IRIs of published documents 
+ : that can be distributed/propagated.
+:)
+declare function data:dist-list() {
+    let $sc := config:storage-config("legaldocs")
+    let $coll-context := collection($sc("collection"))
+    let $docs := $coll-context//an:akomaNtoso[
+        ./an:*/an:meta/an:proprietary/gw:gawati[
+            gw:docDistribute/@origin eq 'gawati-portal'
+            or gw:docDistribute eq 'propagate'
+            ]
+        ]/parent::node()
+    
+    return 
+        data($docs//an:FRBRExpression/an:FRBRthis/@value)
+};
