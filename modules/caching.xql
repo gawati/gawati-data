@@ -43,7 +43,7 @@ declare function caching:filter-cache() {
             <filter name="countries" label="Countries"> {
               
             for $doc in $docs
-              group by $country := data($doc//an:FRBRcountry/@value)
+              group by $country := data($doc/an:*/an:meta//an:FRBRcountry/@value)
               order by $country ascending
               return <country code="{$country}" count="{count($doc)}" >
                        {countries:country-name-alpha2($country)}
@@ -53,7 +53,7 @@ declare function caching:filter-cache() {
             <filter name="langs" label="Languages">
             {
             for $doc in $docs
-              group by $lang := data($doc//an:FRBRlanguage/@language)
+              group by $lang := data($doc/an:*/an:meta//an:FRBRlanguage/@language)
               order by $lang ascending
               return <lang code="{$lang}" count="{count($doc)}" >{langs:lang3-name($lang)}</lang>
             }                
@@ -61,14 +61,14 @@ declare function caching:filter-cache() {
             <filter name="years" label="Years">
                 {
                 for $doc in $docs
-                  group by $year := year-from-date($doc//an:FRBRExpression/an:FRBRdate/@date)
+                  group by $year := year-from-date($doc/an:*/an:meta//an:FRBRExpression/an:FRBRdate/@date)
                   order by $year descending
                   return <year year="{$year}" count="{count($doc)}" ></year>
                 }
             </filter>
             <filter name="keywords" label="Subjects">
                 {
-                for $kw in $docs//an:classification/an:keyword
+                for $kw in $docs/an:*/an:meta//an:classification/an:keyword
                 let $kw-shows := $kw/@showAs
                   group by $kwv := data($kw/@value)
                   order by $kwv ascending
@@ -79,7 +79,7 @@ declare function caching:filter-cache() {
              <filter name="types" label="Document Types"> {
               
             for $doc in $docs
-              group by $type := data($doc//
+              group by $type := data($doc/
               (
                 an:act|
                 an:amendment|
