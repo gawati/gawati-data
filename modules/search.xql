@@ -32,6 +32,7 @@ declare function search:search-category($word as xs:string, $category as xs:stri
           case "country" return search:search-group-country($coll, $word, $from, $count)
           case "theme" return search:search-group-theme($coll, $word, $from, $count)
           case "number" return search:search-group-number($coll, $word, $from, $count)
+          case "ftsearch" return search:search-group-ftsearch($coll, $word, $from, $count)
           default return ""
           
     return
@@ -153,6 +154,11 @@ declare function search:search-group-title($coll as item()*, $search as xs:strin
     return search:get-results-map($total-matches, $count, $from, $all-matches)
 };
 
+declare function search:search-group-ftsearch($coll as item()*, $word as xs:string, $from as xs:integer, $count as xs:integer ) {
+    let $all-matches := data:coll-fulltext-search($word)
+    let $total-matches := count($all-matches)
+    return search:get-results-map($total-matches, $count, $from, $all-matches)
+};
 
 declare function search:search-group-country($coll as item()*, $search as xs:string, $from as xs:integer, $count as xs:integer) {
     let $all-matches := $coll//an:akomaNtoso[
