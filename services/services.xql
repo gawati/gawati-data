@@ -379,6 +379,39 @@ function services:doc-iri-xml($iri) {
             </gwd:package>
 };
 
+
+declare
+    %rest:GET
+    %rest:path("/gw/doc/xml/download")
+    %rest:query-param("iri", "{$iri}", "")
+    %rest:produces("application/xml", "text/xml")
+function services:doc-iri-xml-download($iri) {
+    let $doc := data:doc($iri)
+    let $params := 
+        <output:serialization-parameters 
+                xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+          <output:omit-xml-declaration value="yes"/>
+        </output:serialization-parameters>
+    return
+       if (empty($doc)) then
+            <rest:response>
+                <http:response status="404">
+                    <http:header name="Content-Type" value="application/xml"/>
+                </http:response>
+            </rest:response>
+       else
+            (
+            <rest:response>
+                <http:response status="200">
+                    <http:header name="Content-Type" value="application/xml"/>
+                    <http:header name="Content-Disposition" value="attachment; filename='{util:document-name($doc)}'"/>
+                </http:response>
+            </rest:response>,
+            document {$doc}
+            )
+};
+
+
 (:~
  : Retrieves an AKoma Ntoso XML document based on its IRI
  : The expression IRI from the FRBRthis element is used to retrieve the document
