@@ -18,6 +18,7 @@ import module namespace common="http://gawati.org/xq/db/common" at "common.xql";
 import module namespace langs="http://gawati.org/xq/portal/langs" at "langs.xql";
 import module namespace utils="http://gawati.org/xq/portal/utils" at "./utils.xql";
 import module namespace dbauth="http://gawati.org/xq/portal/dbauth" at "./dbauth.xql";
+import module namespace ftdoc="http://gawati.org/xq/db/ftdoc" at "ftdoc.xql";
 
 declare function data:doc($this-iri as xs:string) {
     let $coll := common:doc-collection()
@@ -281,6 +282,15 @@ declare function local:full-doc($doc) {
     $doc
 };
 
+(:~
+ : This function extractss text from xml 
+ : @param XML document and no. of character to be returned
+ : @returns Text from XML document. Also special characters. 
+ :)
+declare function local:textFromXml($doc, $characterLimit as xs:integer) {
+    translate(substring(normalize-space(data($doc)), 1, $characterLimit), '-$`,:%!@#_|]$?~@#!%:;=_+*.-+=?;"', '')  
+};
+
 
 (:~
  : This function is called as a higher order function 
@@ -296,6 +306,7 @@ declare function data:summary-doc($doc) {
     let $pdfname-tok := tokenize($pdfname, "\.")
     let $lang-code := andoc:FRBRlanguage-language($doc)
     let $lang-name := langs:lang3-name($lang-code)
+    let $characterLimit :=500
     return
     <gwd:exprAbstract expr-iri="{andoc:expression-FRBRthis-value($doc)}"
         work-iri="{andoc:work-FRBRthis-value($doc)}" xmlns:gwd="http://gawati.org/ns/1.0/data">
@@ -305,6 +316,7 @@ declare function data:summary-doc($doc) {
         <gwd:country value="{andoc:FRBRcountry($doc)/@value}" >{$frbrcountry/@showAs}</gwd:country>
         <gwd:language value="{andoc:FRBRlanguage-language($doc)}" showAs="{$lang-name}" />
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
+        <gwd:summaryText>{local:textFromXml(ftdoc:doc(data(andoc:expression-FRBRthis-value($doc))),$characterLimit)}</gwd:summaryText>        
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
         <gwd:componentLink src="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
      </gwd:exprAbstract>
