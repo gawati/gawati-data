@@ -287,8 +287,14 @@ declare function local:full-doc($doc) {
  : @param XML document and no. of character to be returned
  : @returns Text from XML document. Also special characters. 
  :)
-declare function local:textFromXml($doc, $characterLimit as xs:integer) {
-    translate(substring(normalize-space(data($doc)), 1, $characterLimit), '-$`,:%!@#_|]$?~@#!%:;=_+*.-+=?;"', '')  
+declare function local:text-from-xml($doc, $characterLimit as xs:integer) {
+    translate(
+        substring(
+            normalize-space(data($doc)[1]), 
+            1, 
+            $characterLimit
+         ), 
+         '-$`,:%!@#_|]$?~@#!%:;=_+*.-+=?;"', '')  
 };
 
 
@@ -316,7 +322,14 @@ declare function data:summary-doc($doc) {
         <gwd:country value="{andoc:FRBRcountry($doc)/@value}" >{$frbrcountry/@showAs}</gwd:country>
         <gwd:language value="{andoc:FRBRlanguage-language($doc)}" showAs="{$lang-name}" />
         <gwd:publishedAs>{andoc:publication-showas($doc)}</gwd:publishedAs>
-        <gwd:summaryText>{local:textFromXml(ftdoc:doc(data(andoc:expression-FRBRthis-value($doc))),$characterLimit)}</gwd:summaryText>        
+        <gwd:summaryText>{
+        local:text-from-xml(
+            ftdoc:doc(
+                data(andoc:expression-FRBRthis-value($doc))
+            ),
+            $characterLimit
+        )
+        }</gwd:summaryText>        
         <gwd:number value="{$frbrnumber/@value}">{$frbrnumber/@showAs}</gwd:number>
         <gwd:componentLink src="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@src}" value="{$doc//an:book[@refersTo='#mainDocument']/an:componentRef/@alt}" />
      </gwd:exprAbstract>
